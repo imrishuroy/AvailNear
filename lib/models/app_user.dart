@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finding_home/enums/user_type.dart';
@@ -62,6 +63,29 @@ class AppUser extends Equatable {
       userType: type ?? UserType.unknown,
     );
   }
+
+  factory AppUser.fromDocument(DocumentSnapshot? doc) {
+    final data = doc?.data() as Map?;
+    final type = EnumToString.fromString(UserType.values, data?['userType']);
+    print('App users ---- $data');
+    return AppUser(
+      userId: doc?.id,
+      email: data?['email'],
+      name: data?['name'],
+      photoUrl: data?['photoUrl'],
+      phoneNo: data?['phoneNo'],
+      userType: type ?? UserType.unknown,
+    );
+  }
+
+  static const emptyUser = AppUser(
+    userId: '',
+    photoUrl: '',
+    name: '',
+    phoneNo: '',
+    email: '',
+    userType: UserType.unknown,
+  );
 
   String toJson() => json.encode(toMap());
 

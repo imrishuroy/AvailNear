@@ -59,6 +59,25 @@ class ImageUtil {
     return downloadUrl;
   }
 
+  static Future<String> uploadPostImageToStorage({
+    required String folderName,
+    required Uint8List file,
+    required String postId,
+  }) async {
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+
+    Reference ref = _storage.ref().child(folderName).child(postId);
+    String id = const Uuid().v1();
+    ref = ref.child(id);
+
+    // putting in uint8list format -> Upload task like a future but not future
+    UploadTask uploadTask = ref.putData(file);
+
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
   static Future<String> uploadStoryImageToStorage(
     String childName,
     Uint8List file,

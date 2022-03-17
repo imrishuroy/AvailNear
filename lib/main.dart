@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import '/repositories/post/post_repository.dart';
 import '/config/auth_wrapper.dart';
 import '/repositories/profile/profile_repository.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,6 @@ import 'blocs/bloc/auth_bloc.dart';
 import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'repositories/auth/auth_repository.dart';
-import 'repositories/owner/owner_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,11 +46,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
         ),
-        RepositoryProvider<OwnerRepository>(
-          create: (_) => OwnerRepository(),
-        ),
         RepositoryProvider<ProfileRepository>(
           create: (_) => ProfileRepository(),
+        ),
+        RepositoryProvider<PostRepository>(
+          create: (_) => PostRepository(),
         )
       ],
       child: MultiBlocProvider(

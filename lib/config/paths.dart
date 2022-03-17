@@ -1,21 +1,9 @@
 class Paths {
-  static const String owners = 'owners';
-
-  ///////////////////////////////////////////////
+  // top-level-collections
   static const String users = 'users';
 
-  static const String lectures = 'lectures';
+  static const String posts = 'posts';
 
-  static const String gallery = 'gallery';
-
-  static const String announcements = 'announcements';
-
-  static const String assignments = 'assignments';
-
-  static const String attendance = 'attendance';
-
-  static const String forms = 'forms';
-
-  // sub collection
+  // sub collections
 
 }
