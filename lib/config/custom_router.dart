@@ -26,6 +26,9 @@ class CustomRouter {
       case SignupScreen.routeName:
         return SignupScreen.route();
 
+      // case ChooseUser.routeName:
+      //   return ChooseUser.route();
+
       default:
         return _errorRoute();
     }

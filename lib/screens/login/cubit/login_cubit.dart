@@ -50,9 +50,9 @@ class LoginCubit extends Cubit<LoginState> {
       final user = await _authRepository.signInWithGoogle();
 
       if (user != null) {
-        final doc = await _usersRef.doc(user.uid).get();
+        final doc = await _usersRef.doc(user.userId).get();
         if (!doc.exists) {
-          _usersRef.doc(user.uid).set(user.toMap());
+          _usersRef.doc(user.userId).set(user.toMap());
         }
       }
       emit(state.copyWith(status: LoginStatus.succuss));
@@ -68,9 +68,9 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       final user = await _authRepository.signInWithApple();
       if (user != null) {
-        final doc = await _usersRef.doc(user.uid).get();
+        final doc = await _usersRef.doc(user.userId).get();
         if (!doc.exists) {
-          _usersRef.doc(user.uid).set(user.toMap());
+          _usersRef.doc(user.userId).set(user.toMap());
         }
       }
       emit(state.copyWith(status: LoginStatus.succuss));

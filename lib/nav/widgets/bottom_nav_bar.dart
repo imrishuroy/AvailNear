@@ -14,7 +14,11 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0, right: 12.0, left: 12.0),
+      padding: const EdgeInsets.only(
+        bottom: 10.0,
+        right: 12.0,
+        left: 12.0,
+      ),
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20.0),
@@ -32,13 +36,15 @@ class BottomNavBar extends StatelessWidget {
           // type: BottomNavigationBarType.shifting,
 
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
+          backgroundColor: const Color(0xff96DEF4),
           iconSize: 20,
           selectedFontSize: 12,
           unselectedFontSize: 13,
-          selectedItemColor: const Color(0XFF00286E),
+          selectedItemColor: Colors.white,
+          // selectedItemColor: const Color(0XFF00286E),
           //selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Colors.black,
           currentIndex: NavItem.values.indexOf(navItem!),
           onTap: (index) => onitemSelected!(NavItem.values[index]),
           items: NavItem.values.map((item) {

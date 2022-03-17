@@ -1,8 +1,14 @@
+import '/blocs/bloc/auth_bloc.dart';
+
+import '/repositories/profile/profile_repository.dart';
+import '/screens/profile/cubit/profile_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '/screens/profile/owner/owner_profile.dart';
 import 'package:flutter/material.dart';
 import '/screens/dashboard/dashboard.dart';
 import '/screens/girl-table/girl_table.dart';
 import '/screens/mentor-connect/mentor_connect.dart';
-import '/screens/profile/profile_screen.dart';
 
 import '/enums/nav_item.dart';
 
@@ -24,7 +30,12 @@ class SwitchScreen extends StatelessWidget {
         return const MentorConnect();
 
       case NavItem.profile:
-        return const ProfileScreen();
+        return BlocProvider<ProfileCubit>(
+          create: (context) => ProfileCubit(
+              profileRepository: context.read<ProfileRepository>(),
+              authBloc: context.read<AuthBloc>()),
+          child: OwnerProfile(),
+        );
 
       default:
         return const Center(

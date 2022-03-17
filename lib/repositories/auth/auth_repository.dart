@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '/config/shared_prefs.dart';
+import '/enums/user_type.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -23,18 +25,23 @@ class AuthRepository extends BaseAuthRepository {
 
   AppUser? _appUser(User? user) {
     if (user == null) return null;
+
+    UserType type;
+
+    if (SharedPrefs().getUserType == owner) {
+      type = UserType.owner;
+    } else if (SharedPrefs().getUserType == renter) {
+      type = UserType.renter;
+    } else {
+      type = UserType.unknown;
+    }
+
     return AppUser(
-      uid: user.uid,
+      userId: user.uid,
       name: user.displayName,
-      photUrl: user.photoURL,
-      mobileNo: user.phoneNumber ?? '',
-      fatherName: '',
-      motherName: '',
-      enrollNo: '',
-      branch: '',
-      section: '',
-      attendance: 0,
-      sem: '',
+      photoUrl: user.photoURL,
+      phoneNo: user.phoneNumber ?? '',
+      userType: type,
     );
   }
 
@@ -67,10 +74,6 @@ class AuthRepository extends BaseAuthRepository {
       // Once signed in, return the UserCredential
       final UserCredential userCredential =
           await _firebaseAuth.signInWithCredential(credential);
-
-      // final user = await _userRef.doc(userCredential.user?.uid).get();
-
-      // print('User Exists ---- ${user.exists}');
 
       return _appUser(userCredential.user);
     } on FirebaseAuthException catch (error) {

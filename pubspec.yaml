@@ -28,12 +28,16 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cached_network_image: ^3.2.0
+  camera: ^0.9.4+16
+  camerawesome: ^0.3.0+1
   carousel_slider: ^4.0.0
   cloud_firestore: ^3.1.10
+  connectivity_plus: ^2.2.1
   crypto: ^3.0.1
   cupertino_icons: ^1.0.2
   enum_to_string: ^2.0.1
   equatable: ^2.0.3
+  expansion_tile_card: ^2.0.0
   firebase_auth: ^3.3.10
   firebase_core: ^1.13.1
   firebase_storage: ^10.2.9
@@ -44,24 +48,27 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   flutter_staggered_grid_view: ^0.6.1
   font_awesome_flutter: ^9.2.0
+  geolocator: ^8.2.0
   google_fonts: ^2.3.1
+  google_maps_flutter: ^2.1.2
   google_sign_in: ^5.2.4
+  image_cropper: ^1.5.0
+  image_picker: ^0.8.4+11
+  infinite_scroll_pagination: ^3.1.0
   intl: ^0.17.0
+  material_floating_search_bar: ^0.3.7
+  path_provider: ^2.0.9
+  shared_preferences: ^2.0.13
+  shimmer: ^2.0.0
   sign_in_with_apple: ^3.3.0
   timeago: ^3.2.2
   universal_platform: ^1.0.0+1
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  dart_code_metrics: ^4.12.0
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  dart_code_metrics: ^4.12.0  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

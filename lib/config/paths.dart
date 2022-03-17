@@ -1,4 +1,7 @@
 class Paths {
+  static const String owners = 'owners';
+
+  ///////////////////////////////////////////////
   static const String users = 'users';
 
   static const String lectures = 'lectures';

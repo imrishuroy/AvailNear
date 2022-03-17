@@ -24,7 +24,7 @@ class AuthWrapper extends StatelessWidget {
         if (state.status == AuthStatus.unauthenticated) {
           Navigator.of(context).pushNamed(LoginScreen.routeName);
         } else if (state.status == AuthStatus.authenticated) {
-          print('Auth State user - ${state.user?.uid}');
+          print('Auth State user - ${state.user?.userId}');
 
           Navigator.of(context).pushNamed(NavScreen.routeName);
         }

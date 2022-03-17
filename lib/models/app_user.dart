@@ -1,91 +1,65 @@
 import 'dart:convert';
 
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
+import 'package:finding_home/enums/user_type.dart';
 
 class AppUser extends Equatable {
-  final String? uid;
-  final String? photUrl;
+  final String? userId;
+  final String? photoUrl;
   final String? name;
-  //final bool isVerified;
-  final String? fatherName;
-  final String? motherName;
-  final String? mobileNo;
-  final String? enrollNo;
-  final String? branch;
-  final String? sem;
-  final int? attendance;
-  final String? section;
+  final String? phoneNo;
+  final String? email;
+  final UserType userType;
+
   const AppUser({
-    required this.uid,
-    this.photUrl,
+    this.userId,
+    this.photoUrl,
     this.name,
-    this.fatherName,
-    this.motherName,
-    this.mobileNo,
-    this.enrollNo,
-    this.branch,
-    this.sem,
-    this.attendance,
-    this.section,
+    this.phoneNo,
+    this.email,
+    this.userType = UserType.unknown,
   });
 
   AppUser copyWith({
-    String? uid,
-    String? photUrl,
+    String? userId,
+    String? photoUrl,
     String? name,
-    String? fatherName,
-    String? motherName,
-    String? mobileNo,
-    String? enrollNo,
-    String? branch,
-    String? sem,
-    int? attendance,
-    String? section,
+    String? phoneNo,
+    String? email,
+    UserType? userType,
   }) {
     return AppUser(
-      uid: uid ?? this.uid,
-      photUrl: photUrl ?? this.photUrl,
+      userId: userId ?? this.userId,
+      photoUrl: photoUrl ?? this.photoUrl,
       name: name ?? this.name,
-      fatherName: fatherName ?? this.fatherName,
-      motherName: motherName ?? this.motherName,
-      mobileNo: mobileNo ?? this.mobileNo,
-      enrollNo: enrollNo ?? this.enrollNo,
-      branch: branch ?? this.branch,
-      sem: sem ?? this.sem,
-      attendance: attendance ?? this.attendance,
-      section: section ?? this.section,
+      phoneNo: phoneNo ?? this.phoneNo,
+      email: email ?? this.email,
+      userType: userType ?? this.userType,
     );
   }
 
   Map<String, dynamic> toMap() {
+    final type = EnumToString.convertToString(userType);
     return {
-      'uid': uid,
-      'photUrl': photUrl,
+      'userId': userId,
+      'photoUrl': photoUrl,
       'name': name,
-      'fatherName': fatherName,
-      'motherName': motherName,
-      'mobileNo': mobileNo,
-      'enrollNo': enrollNo,
-      'branch': branch,
-      'sem': sem,
-      'attendance': attendance,
-      'section': section,
+      'phoneNo': phoneNo,
+      'email': email,
+      'userType': type,
     };
   }
 
   factory AppUser.fromMap(Map<String, dynamic> map) {
+    final type = EnumToString.fromString(UserType.values, map['userType']);
     return AppUser(
-      uid: map['uid'],
-      photUrl: map['photUrl'],
+      userId: map['userId'],
+      photoUrl: map['photoUrl'],
       name: map['name'],
-      fatherName: map['fatherName'],
-      motherName: map['motherName'],
-      mobileNo: map['mobileNo'],
-      enrollNo: map['enrollNo'],
-      branch: map['branch'],
-      sem: map['sem'],
-      attendance: map['attendance'],
-      section: map['section'],
+      phoneNo: map['phoneNo'],
+      email: map['email'],
+      userType: type ?? UserType.unknown,
     );
   }
 
@@ -95,22 +69,19 @@ class AppUser extends Equatable {
       AppUser.fromMap(json.decode(source));
 
   @override
-  bool get stringify => true;
+  String toString() {
+    return 'AppUser(userId: $userId, photoUrl: $photoUrl, name: $name, phoneNo: $phoneNo, email: $email)';
+  }
 
   @override
   List<Object?> get props {
     return [
-      uid,
-      photUrl,
+      userId,
+      photoUrl,
       name,
-      fatherName,
-      motherName,
-      mobileNo,
-      enrollNo,
-      branch,
-      sem,
-      attendance,
-      section,
+      phoneNo,
+      email,
+      userType,
     ];
   }
 }

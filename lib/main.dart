@@ -1,14 +1,19 @@
 import 'package:equatable/equatable.dart';
+import '/config/auth_wrapper.dart';
+import '/repositories/profile/profile_repository.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/blocs/simple_bloc_observer.dart';
-import '/config/auth_wrapper.dart';
+
 import '/config/custom_router.dart';
 import 'blocs/bloc/auth_bloc.dart';
+import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'repositories/auth/auth_repository.dart';
+import 'repositories/owner/owner_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +30,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-
+  await SharedPrefs().init();
   EquatableConfig.stringify = kDebugMode;
   // Bloc.observer = SimpleBlocObserver();
   BlocOverrides.runZoned(() {}, blocObserver: SimpleBlocObserver());
@@ -42,6 +47,12 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
         ),
+        RepositoryProvider<OwnerRepository>(
+          create: (_) => OwnerRepository(),
+        ),
+        RepositoryProvider<ProfileRepository>(
+          create: (_) => ProfileRepository(),
+        )
       ],
       child: MultiBlocProvider(
         providers: [
@@ -53,10 +64,11 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.black54,
+            // scaffoldBackgroundColor: Colors.black54,
             primaryColor: primaryColor,
             elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(primary: primaryColor)),
+              style: ElevatedButton.styleFrom(primary: primaryColor),
+            ),
             appBarTheme: const AppBarTheme(
               elevation: 0.0,
               titleTextStyle: TextStyle(
@@ -70,6 +82,9 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           onGenerateRoute: CustomRouter.onGenerateRoute,
           initialRoute: AuthWrapper.routeName,
+          // initialRoute: SharedPrefs().getUserType == null
+          //     ? ChooseUser.routeName
+          //     : AuthWrapper.routeName,
         ),
       ),
     );
