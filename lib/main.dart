@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import '/repositories/post/post_repository.dart';
 import '/config/auth_wrapper.dart';
 import '/repositories/profile/profile_repository.dart';
@@ -15,6 +16,12 @@ import 'constants/constants.dart';
 import 'repositories/auth/auth_repository.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+
+      /// systemNavigationBarColor: Colors.blue, // navigation bar color
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark // status bar color
+      ));
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     // await Firebase.initializeApp(

@@ -1,0 +1,18 @@
+Owner 
+
+Post (CRUD)
+1.Create Post 
+2.Edit Post
+3.Delete Post
+4.Get Post 
+
+Post Image
+1.can have al least 2 or 3 images
+2.We can create pananormal view of room or in 3d
+
+
+Renter
+1.Get post by date in decending
+2.Wishlist post 
+3.Report post
+4.Contact post owner

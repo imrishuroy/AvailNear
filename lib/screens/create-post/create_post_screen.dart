@@ -1,4 +1,6 @@
 import 'dart:io';
+import '/widgets/error_dialog.dart';
+
 import '/widgets/show_snackbar.dart';
 
 import '/constants/constants.dart';
@@ -35,11 +37,14 @@ class _CreatePostState extends State<CreatePost> {
         await context.read<CreatePostCubit>().submitPost();
         _formKey.currentState?.reset();
         context.read<CreatePostCubit>().clearSelectedImage();
+        ShowSnackBar.showSnackBar(
+          context,
+          title: 'New Post added',
+        );
       } else {
         ShowSnackBar.showSnackBar(
           context,
           title: 'Please select an image to continue',
-          //backgroundColor: Colors.red,
         );
       }
     }
@@ -54,6 +59,10 @@ class _CreatePostState extends State<CreatePost> {
       builder: (context, state) {
         if (state.status == CreatePostStatus.submitting) {
           return const LoadingIndicator();
+        } else if (state.status == CreatePostStatus.error) {
+          showDialog(
+              context: context,
+              builder: (_) => ErrorDialog(content: state.failure?.message));
         }
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

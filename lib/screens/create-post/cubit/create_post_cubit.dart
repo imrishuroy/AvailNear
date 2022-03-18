@@ -106,6 +106,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         address: state.address,
         owner: _authBloc.state.user,
         price: state.price,
+        createdAt: DateTime.now(),
       );
       await _postRepository.addPost(post: post);
 

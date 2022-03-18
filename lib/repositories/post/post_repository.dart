@@ -24,6 +24,21 @@ class PostRepository extends BasePostRepository {
     }
   }
 
+  @override
+  Future<List<Future<Post?>>> getRenterPosts() async {
+    try {
+      final postsSnaps = await _firestore
+          .collection(Paths.posts)
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      return postsSnaps.docs.map((doc) => Post.fromDocument(doc)).toList();
+    } catch (error) {
+      print('Error in getting renter posts -- ${error.toString()}');
+      throw const Failure(message: 'Error in getting posts');
+    }
+  }
+
   Future<List<Future<Post?>>> getOwnerPosts({required String? ownerId}) async {
     try {
       final ownerRef =
@@ -34,6 +49,7 @@ class PostRepository extends BasePostRepository {
           //     fromFirestore: (snapshot, _) => Post.fromMap(snapshot.data()!),
           //     toFirestore: (snapshtot, _) => snapshtot.toMap())
           .where('owner', isEqualTo: ownerRef)
+          .orderBy('createdAt', descending: true)
           .get();
 
       return postsSnaps.docs.map((doc) => Post.fromDocument(doc)).toList();

@@ -1,4 +1,7 @@
-import '/screens/dashboard/cubit/owner_posts_cubit.dart';
+import 'package:finding_home/blocs/bloc/auth_bloc.dart';
+
+import '/config/shared_prefs.dart';
+import 'cubit/posts_cubit.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,37 +11,33 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _authBloc = context.read<AuthBloc>();
+    print('User type -- ${SharedPrefs().getUserType}');
+    print('Appuser type -- ${_authBloc.state.user?.userType}');
     return Scaffold(
-        body: BlocConsumer<OwnerPostsCubit, OwnerPostsState>(
-      listener: (context, state) {},
+      body: BlocConsumer<PostsCubit, PostsState>(
+        listener: (context, state) {},
 
-      // future: _postRepo.getOwnerPosts(
-      // ownerId: context.read<AuthBloc>().state.user?.userId),
-      builder: (context, state) {
-        if (state.status == OwnerPostsStatus.loading) {
-          return const LoadingIndicator();
-        }
-        return ListView.builder(
-          itemCount: state.posts.length,
-          itemBuilder: (context, index) {
-            final post = state.posts[index];
-            return ListTile(
-              title: Text(
-                post?.title ?? '',
-                style: const TextStyle(color: Colors.black),
-              ),
-            );
-          },
-        );
-      },
-    )
-
-        //  Center(
-        //   child: Text(
-        //     'Home Screen',
-        //     style: TextStyle(color: Colors.white),
-        //   ),
-        // ),
-        );
+        // future: _postRepo.getOwnerPosts(
+        // ownerId: context.read<AuthBloc>().state.user?.userId),
+        builder: (context, state) {
+          if (state.status == PostsStatus.loading) {
+            return const LoadingIndicator();
+          }
+          return ListView.builder(
+            itemCount: state.posts.length,
+            itemBuilder: (context, index) {
+              final post = state.posts[index];
+              return ListTile(
+                title: Text(
+                  post?.title ?? '',
+                  style: const TextStyle(color: Colors.black),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

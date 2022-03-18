@@ -13,6 +13,7 @@ class Post extends Equatable {
   final int? price;
   final String? address;
   final List<String?> images;
+  final DateTime? createdAt;
 
   const Post({
     this.postId,
@@ -22,6 +23,7 @@ class Post extends Equatable {
     this.price,
     this.address,
     required this.images,
+    this.createdAt,
   });
 
   Post copyWith({
@@ -32,6 +34,7 @@ class Post extends Equatable {
     int? price,
     String? address,
     List<String?>? images,
+    DateTime? createdAt,
   }) {
     return Post(
       postId: postId ?? this.postId,
@@ -41,6 +44,7 @@ class Post extends Equatable {
       price: price ?? this.price,
       address: address ?? this.address,
       images: images ?? this.images,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -57,6 +61,7 @@ class Post extends Equatable {
       'price': price,
       'address': address,
       'images': images,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
     };
   }
 
@@ -73,31 +78,39 @@ class Post extends Equatable {
       owner: data?['owner'] != null ? AppUser.fromDocument(userSnap) : null,
       price: data?['price']?.toInt(),
       address: data?['address'],
-      images: List<String?>.from(data?['images']),
+      images: List<String?>.from(
+        data?['images'],
+      ),
+      createdAt: data?['createdAt'] != null
+          ? (data?['createdAt'] as Timestamp).toDate()
+          : null,
     );
   }
 
-  factory Post.fromMap(Map<String, dynamic> map) {
-    print('Post map data --$map');
+  // factory Post.fromMap(Map<String, dynamic> map) {
+  //   print('Post map data --$map');
 
-    return Post(
-      postId: map['postId'],
-      title: map['title'],
-      description: map['description'],
-      owner: map['owner'] != null ? AppUser.fromMap(map['owner']) : null,
-      price: map['price']?.toInt(),
-      address: map['address'],
-      images: List<String?>.from(map['images']),
-    );
-  }
+  //   return Post(
+  //     postId: map['postId'],
+  //     title: map['title'],
+  //     description: map['description'],
+  //     owner: map['owner'] != null ? AppUser.fromMap(map['owner']) : null,
+  //     price: map['price']?.toInt(),
+  //     address: map['address'],
+  //     images: List<String?>.from(map['images']),
+  //          createdAt: map['createdAt'] != null
+  //         ? (map['createdAt'] as Timestamp).toDate()
+  //         : null,
+  //   );
+  // }
 
   String toJson() => json.encode(toMap());
 
-  factory Post.fromJson(String source) => Post.fromMap(json.decode(source));
+  //factory Post.fromJson(String source) => Post.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Post(title: $title, description: $description, owner: $owner, price: $price, address: $address, images: $images, postId: $postId)';
+    return 'Post(title: $title, description: $description, owner: $owner, price: $price, address: $address, images: $images, postId: $postId, createdAt: $createdAt)';
   }
 
   @override
@@ -110,6 +123,7 @@ class Post extends Equatable {
       price,
       address,
       images,
+      createdAt,
     ];
   }
 }

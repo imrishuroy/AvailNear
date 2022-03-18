@@ -1,15 +1,15 @@
-import 'package:finding_home/screens/dashboard/cubit/owner_posts_cubit.dart';
+import 'package:finding_home/screens/dashboard/cubit/posts_cubit.dart';
+import 'package:finding_home/screens/dashboard/home_screen.dart';
 
 import '/repositories/post/post_repository.dart';
 import '/screens/create-post/cubit/create_post_cubit.dart';
-import '/screens/create-post/create_post.dart';
+import '../../screens/create-post/create_post_screen.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/repositories/profile/profile_repository.dart';
 import '/screens/profile/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/profile/owner/owner_profile.dart';
 import 'package:flutter/material.dart';
-import '/screens/dashboard/dashboard.dart';
 
 import '/enums/nav_item.dart';
 
@@ -23,11 +23,11 @@ class SwitchScreen extends StatelessWidget {
     switch (navItem) {
       case NavItem.dashboard:
         return BlocProvider(
-          create: (context) => OwnerPostsCubit(
+          create: (context) => PostsCubit(
             postRepository: context.read<PostRepository>(),
             authBloc: context.read<AuthBloc>(),
           )..loadOwnerPosts(),
-          child: const DashBoard(),
+          child: const HomeScreen(),
         );
 
       case NavItem.nearby:
