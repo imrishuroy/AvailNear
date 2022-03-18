@@ -1,8 +1,6 @@
 import 'dart:io';
 import '/widgets/error_dialog.dart';
-
 import '/widgets/show_snackbar.dart';
-
 import '/constants/constants.dart';
 import '/screens/create-post/cubit/create_post_cubit.dart';
 import '/widgets/custom_button.dart';

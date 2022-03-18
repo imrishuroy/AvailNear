@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finding_home/enums/user_type.dart';
@@ -36,6 +38,17 @@ class PostsCubit extends Cubit<PostsState> {
       emit(PostsState.loaded(posts: posts));
     } on Failure catch (error) {
       print('Error getting posts');
+      emit(state.copyWith(
+          failure: Failure(message: error.message), status: PostsStatus.error));
+    }
+  }
+
+  void wishlistPost({required String? postId}) async {
+    try {
+      await _postRepository.wishlistPost(
+          postId: postId, userId: _authBloc.state.user?.userId);
+    } on Failure catch (error) {
+      print('Error in fab post');
       emit(state.copyWith(
           failure: Failure(message: error.message), status: PostsStatus.error));
     }

@@ -4,6 +4,9 @@ class Paths {
 
   static const String posts = 'posts';
 
+  static const String wishlist = 'wishlist';
+
   // sub collections
 
+  static const String userWishlists = 'userWishlists';
 }

@@ -66,6 +66,7 @@ class Post extends Equatable {
   }
 
   static Future<Post> fromDocument(DocumentSnapshot? doc) async {
+    print('data from post -- $doc');
     final data = doc?.data() as Map?;
 
     final userRef = data?['owner'] as DocumentReference?;

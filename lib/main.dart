@@ -13,6 +13,7 @@ import '/config/custom_router.dart';
 import 'blocs/bloc/auth_bloc.dart';
 import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
+import 'cubits/cubit/liked_posts_cubit.dart';
 import 'repositories/auth/auth_repository.dart';
 
 void main() async {
@@ -65,6 +66,12 @@ class MyApp extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
               authRepository: context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider<LikedPostsCubit>(
+            create: (context) => LikedPostsCubit(
+              postRepository: context.read<PostRepository>(),
+              authBloc: context.read<AuthBloc>(),
             ),
           ),
         ],

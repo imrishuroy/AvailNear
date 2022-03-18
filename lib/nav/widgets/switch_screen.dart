@@ -1,9 +1,12 @@
-import 'package:finding_home/screens/dashboard/cubit/posts_cubit.dart';
-import 'package:finding_home/screens/dashboard/home_screen.dart';
+import 'package:finding_home/screens/wishlist/bloc/wishlist_bloc.dart';
+import 'package:finding_home/screens/wishlist/wishlist_posts.dart';
 
+import '/cubits/cubit/liked_posts_cubit.dart';
+import '/screens/feed/bloc/feed_bloc.dart';
+import '/screens/feed/feed_screen.dart';
 import '/repositories/post/post_repository.dart';
 import '/screens/create-post/cubit/create_post_cubit.dart';
-import '../../screens/create-post/create_post_screen.dart';
+import '/screens/create-post/create_post_screen.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/repositories/profile/profile_repository.dart';
 import '/screens/profile/cubit/profile_cubit.dart';
@@ -23,21 +26,13 @@ class SwitchScreen extends StatelessWidget {
     switch (navItem) {
       case NavItem.dashboard:
         return BlocProvider(
-          create: (context) => PostsCubit(
-            postRepository: context.read<PostRepository>(),
-            authBloc: context.read<AuthBloc>(),
-          )..loadOwnerPosts(),
-          child: const HomeScreen(),
-        );
-
-      case NavItem.nearby:
-        return BlocProvider<CreatePostCubit>(
-          create: (context) => CreatePostCubit(
+          create: (context) => FeedBloc(
+              postRepository: context.read<PostRepository>(),
               authBloc: context.read<AuthBloc>(),
-              postRepository: context.read<PostRepository>()),
-          child: const CreatePost(),
+              likedPostsCubit: context.read<LikedPostsCubit>())
+            ..add(FeedFetchPosts()),
+          child: const FeedScreen(),
         );
-      // return const GirlTable();
 
       case NavItem.search:
         return BlocProvider<CreatePostCubit>(
@@ -45,6 +40,16 @@ class SwitchScreen extends StatelessWidget {
               authBloc: context.read<AuthBloc>(),
               postRepository: context.read<PostRepository>()),
           child: const CreatePost(),
+        );
+
+      case NavItem.nearby:
+        return BlocProvider(
+          create: (context) => WishlistBloc(
+            postRepository: context.read<PostRepository>(),
+            authBloc: context.read<AuthBloc>(),
+            likedPostsCubit: context.read<LikedPostsCubit>(),
+          )..add(LoadWishListPots()),
+          child: const WishListPosts(),
         );
 
       case NavItem.profile:

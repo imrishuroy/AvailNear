@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:finding_home/models/failure.dart';
+import '/models/failure.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '/config/paths.dart';
 import '/models/post.dart';
@@ -72,6 +72,115 @@ class PostRepository extends BasePostRepository {
             .child(postId)
             .delete();
       }
+    }
+  }
+
+  Future<void> wishlistPost({
+    required String? postId,
+    required String? userId,
+  }) async {
+    try {
+      if (postId == null || userId == null) {
+        return;
+      }
+
+      await _firestore
+          .collection(Paths.wishlist)
+          .doc(userId)
+          .collection(Paths.userWishlists)
+          .doc(postId)
+          .set(
+        {
+          //  'post': _firestore.collection(Paths.posts).doc(postId),
+          'date': Timestamp.fromDate(DateTime.now())
+        },
+      );
+      // await _firestore
+      //     .collection(Paths.wishlist)
+      //     .doc(postId)
+      //     .collection(Paths.userWishlists)
+      //     .doc(userId)
+      //     .set({'post': _firestore.collection(Paths.posts).doc(postId)});
+    } catch (error) {
+      print('Error in wishlist post ${error.toString()}');
+      throw const Failure(message: 'Error in wishliting post');
+    }
+  }
+
+  Future<void> deletedWishlist({
+    required String? postId,
+    required String? userId,
+  }) async {
+    try {
+      if (postId == null || userId == null) {
+        return;
+      }
+      await _firestore
+          .collection(Paths.wishlist)
+          .doc(userId)
+          .collection(Paths.userWishlists)
+          .doc(postId)
+          .delete();
+    } catch (error) {
+      print('Error in deleting wishlist ${error.toString()}');
+    }
+  }
+
+  Future<Set<String>> getWishListPostIds({
+    required String? userId,
+    // required List<Post?>? posts,
+  }) async {
+    if (userId == null) {
+      return {};
+    }
+
+    //  var postIds = <String>{};
+
+    final wishListSnaps = await _firestore
+        .collection(Paths.wishlist)
+        .doc(userId)
+        .collection(Paths.userWishlists)
+        //.orderBy('date', descending: true)
+        .get();
+
+    // postIds =
+
+    return wishListSnaps.docs.map((doc) => doc.id).toSet();
+
+    // for (final post in posts) {
+    //   final likeDoc = await _firestore
+    //       .collection(Paths.wishlist)
+    //       .doc(post?.postId)
+    //       .collection(Paths.userWishlists)
+    //       .doc(userId)
+    //       .get();
+    //   if (likeDoc.exists) {
+    //     postIds.add(post!.postId!);
+    //   }
+    // }
+    // return postIds;
+
+//    return postIds;
+  }
+
+  Future<List<Future<Post?>>> getWishListPosts({
+    required String? userId,
+  }) async {
+    try {
+      final wishListSnaps = await _firestore
+          .collection(Paths.wishlist)
+          .doc(userId)
+          .collection(Paths.userWishlists)
+          .orderBy('date', descending: true)
+          .get();
+
+      return wishListSnaps.docs.map((doc) async {
+        final postRef = _firestore.collection(Paths.posts).doc(doc.id);
+        return Post.fromDocument(await postRef.get());
+      }).toList();
+    } catch (error) {
+      print('Error get wishlist items ${error.toString()}');
+      throw const Failure(message: 'Error in wishlists items ');
     }
   }
 }
