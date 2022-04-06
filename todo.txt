@@ -16,3 +16,4 @@ Renter
 2.Wishlist post 
 3.Report post
 4.Contact post owner
+Wishlist

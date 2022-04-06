@@ -15,14 +15,6 @@ class NavScreen extends StatelessWidget {
         child: const NavScreen(),
       ),
     );
-
-    // return PageRouteBuilder(
-    //   settings: const RouteSettings(name: routeName),
-    //   pageBuilder: (context, _, __) => BlocProvider(
-    //     create: (context) => NavBloc(),
-    //     child: const NavScreen(),
-    //   ),
-    // );
   }
 
   const NavScreen({Key? key}) : super(key: key);

@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final EdgeInsetsGeometry? contentPadding;
   final String? initialValue;
+  final String? labelText;
 
   const CustomTextField({
     Key? key,
@@ -22,6 +23,7 @@ class CustomTextField extends StatelessWidget {
     this.isPassowrdField = false,
     this.contentPadding = const EdgeInsets.fromLTRB(12, 8, 12, 8),
     this.initialValue,
+    this.labelText,
   }) : super(key: key);
 
   @override
@@ -36,28 +38,31 @@ class CustomTextField extends StatelessWidget {
         validator: validator,
         obscureText: isPassowrdField,
         decoration: InputDecoration(
+          labelText: labelText,
           contentPadding: contentPadding,
           //fillColor: const Color(0xff262626),
           filled: true,
+          fillColor: Colors.white,
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
           prefixIcon:
               prefixIcon != null ? Icon(prefixIcon, color: Colors.white) : null,
           suffixIcon: suffixIcon,
           labelStyle: const TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontFamily: 'Montserrat',
             fontSize: 14.0,
             letterSpacing: 1.0,
           ),
           hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black),
+
+          // hintStyle: const TextStyle(color: Colors.black),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(8.0),
           ),
         ),
       ),

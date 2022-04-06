@@ -1,2 +1,16 @@
+App Designs res 
+
+https://codecanyon.net/item/onproperty-real-estate-app-template-for-flutter-android-and-ios/31468877
+https://codecanyon.net/item/real-estate-ui-template-flutter-ios-android-app/35735096
+https://codecanyon.net/item/real-estate-android-app-template-real-estate-ios-app-template-flutter-propertyhub/31458601
+https://codecanyon.net/item/real-estate-android-app-real-estate-ios-app-template-flutter-myproperty/30895372
+https://codecanyon.net/item/real-estate-flutter-app-ui-kit/34071485
+https://codecanyon.net/item/ereal-state-app-buy-sell-real-state-properties-live-chat-multi-login-multi-payment-gateway/34458461
+https://dribbble.com/shots/15136313-Renik-Real-Estate-Rental-App
+https://dribbble.com/shots/15662604-Home-Rent-App
+
 Using API Keys - Google Maps
 https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+for content and ref
+https://www.booking.com/searchresults.en-gb.html?aid=309654&label=apartments-ZGfyUAZDE53fUH063Whq5gS432876511172%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-12297065006%3Alp1007792%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YcsZ-Id2vkzIfTmYhvC5HOg&sid=2ea892f27aa4872d2a7bd2f9316bfb0e&sb=1&sb_lp=1&src=index&src_elem=sb&error_url=https%3A%2F%2Fwww.booking.com%2Fapartments%2Findex.en-gb.html%3Faid%3D309654%3Blabel%3Dapartments-ZGfyUAZDE53fUH063Whq5gS432876511172%253Apl%253Ata%253Ap1%253Ap2%253Aac%253Aap%253Aneg%253Afi%253Atikwd-12297065006%253Alp1007792%253Ali%253Adec%253Adm%253Appccp%253DUmFuZG9tSVYkc2RlIyh9YcsZ-Id2vkzIfTmYhvC5HOg%3Bsid%3D2ea892f27aa4872d2a7bd2f9316bfb0e%3Bsb_price_type%3Dtotal%26%3B&top_ufis=0&theme_id=1&theme_source=index&ss=Bhopal%2C+Madhya+Pradesh%2C+India&is_ski_area=&checkin_year=&checkin_month=&checkout_year=&checkout_month=&group_adults=2&group_children=0&no_rooms=1&b_h4u_keep_filters=&from_sf=1&ss_raw=bhopal&ac_position=0&ac_langcode=en&ac_click_type=b&dest_id=-2091670&dest_type=city&place_id_lat=23.2667&place_id_lon=77.4&search_pageview_id=3d76338a68cc0214&search_selected=true&search_pageview_id=3d76338a68cc0214&ac_suggestion_list_length=5&ac_suggestion_theme_list_length=0

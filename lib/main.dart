@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/blocs/simple_bloc_observer.dart';
-
 import '/config/custom_router.dart';
 import 'blocs/bloc/auth_bloc.dart';
 import 'config/shared_prefs.dart';
@@ -25,15 +24,15 @@ void main() async {
       ));
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
-    // await Firebase.initializeApp(
-    //   options: const FirebaseOptions(
-    //     apiKey: 'AIzaSyACn2d1FewBh4KugEvQ48DFivmTJkQzg1k',
-    //     appId: '1:1812572046:web:ca0aa061fe63eba3fda6df',
-    //     messagingSenderId: '1812572046',
-    //     projectId: 'solution-challenge-2022-64113',
-    //     storageBucket: 'solution-challenge-2022-64113.appspot.com',
-    //   ),
-    // );
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyDIfD-JZcOT1PkH34y_HmAiaj67YN2zxX4',
+        appId: '1:428303357222:web:5201c28564877eea90dde7',
+        messagingSenderId: '428303357222',
+        projectId: 'finding-home-caca4',
+        storageBucket: 'finding-home-caca4.appspot.com',
+      ),
+    );
   } else {
     await Firebase.initializeApp();
   }
@@ -77,7 +76,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           theme: ThemeData(
-            // scaffoldBackgroundColor: Colors.black54,
+            scaffoldBackgroundColor: Colors.white,
             primaryColor: primaryColor,
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(primary: primaryColor),

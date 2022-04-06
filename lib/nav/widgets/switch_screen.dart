@@ -1,6 +1,6 @@
-import 'package:finding_home/screens/wishlist/bloc/wishlist_bloc.dart';
-import 'package:finding_home/screens/wishlist/wishlist_posts.dart';
-
+import '/screens/feed/cubit/post_cubit.dart';
+import '/screens/wishlist/bloc/wishlist_bloc.dart';
+import '/screens/wishlist/wishlist_posts.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
 import '/screens/feed/bloc/feed_bloc.dart';
 import '/screens/feed/feed_screen.dart';
@@ -25,16 +25,26 @@ class SwitchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (navItem) {
       case NavItem.dashboard:
-        return BlocProvider(
-          create: (context) => FeedBloc(
-              postRepository: context.read<PostRepository>(),
-              authBloc: context.read<AuthBloc>(),
-              likedPostsCubit: context.read<LikedPostsCubit>())
-            ..add(FeedFetchPosts()),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<PostCubit>(
+              create: (_) => PostCubit(
+                postRepository: context.read<PostRepository>(),
+                likedPostsCubit: context.read<LikedPostsCubit>(),
+                authBloc: context.read<AuthBloc>(),
+              ),
+            ),
+            BlocProvider<FeedBloc>(
+              create: (context) => FeedBloc(
+                postCubit: context.read<PostCubit>(),
+                authBloc: context.read<AuthBloc>(),
+              ),
+            )
+          ],
           child: const FeedScreen(),
         );
 
-      case NavItem.search:
+      case NavItem.wishlist:
         return BlocProvider<CreatePostCubit>(
           create: (context) => CreatePostCubit(
               authBloc: context.read<AuthBloc>(),

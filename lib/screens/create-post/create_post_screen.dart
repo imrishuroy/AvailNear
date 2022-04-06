@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:finding_home/enums/nav_item.dart';
+import 'package:finding_home/nav/bloc/nav_bloc.dart';
+
 import '/widgets/error_dialog.dart';
 import '/widgets/show_snackbar.dart';
 import '/constants/constants.dart';
 import '/screens/create-post/cubit/create_post_cubit.dart';
-import '/widgets/custom_button.dart';
 import '/widgets/custom_text_field.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,9 @@ class _CreatePostState extends State<CreatePost> {
           context,
           title: 'New Post added',
         );
+        context
+            .read<NavBloc>()
+            .add(const UpdateNavItem(item: NavItem.dashboard));
       } else {
         ShowSnackBar.showSnackBar(
           context,
@@ -65,6 +70,17 @@ class _CreatePostState extends State<CreatePost> {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Create a post'),
+              centerTitle: true,
+              titleTextStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0.0,
+            ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -74,19 +90,21 @@ class _CreatePostState extends State<CreatePost> {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const SizedBox(height: 100.0),
+                      //const SizedBox(height: 100.0),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(color: Colors.grey.shade800),
                         ),
-                        height: _canvas.height * 0.34,
+                        height: _canvas.height * 0.3,
                         width: double.infinity,
                         child: state.images.isEmpty
                             ? Center(
                                 child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.black),
                                   icon: const Icon(Icons.add_a_photo),
                                   label: const Text('Pick Image'),
                                   // onPressed: () => _pickImage(context),
@@ -147,6 +165,7 @@ class _CreatePostState extends State<CreatePost> {
                       ),
                       const SizedBox(height: 20.0),
                       CustomTextField(
+                        labelText: 'Post Title',
                         onChanged: (value) =>
                             context.read<CreatePostCubit>().titleChanged(value),
                         validator: (value) =>
@@ -155,37 +174,54 @@ class _CreatePostState extends State<CreatePost> {
                         hintText: 'Enter post title',
                       ),
                       CustomTextField(
+                        labelText: 'Description',
                         onChanged: (value) => context
                             .read<CreatePostCubit>()
                             .descriptionChanged(value),
                         validator: (value) =>
                             value!.isEmpty ? 'Description can\'t empty' : null,
                         textInputType: TextInputType.name,
-                        hintText: 'Description',
+                        hintText: 'Enter post description',
                       ),
                       CustomTextField(
+                        labelText: 'Address',
                         onChanged: (value) => context
                             .read<CreatePostCubit>()
                             .addressChanged(value),
                         validator: (value) =>
                             value!.isEmpty ? 'Address can\'t empty' : null,
                         textInputType: TextInputType.name,
-                        hintText: 'Address',
+                        hintText: 'Enter your address',
                       ),
                       CustomTextField(
+                        labelText: 'Price',
                         onChanged: (value) =>
                             context.read<CreatePostCubit>().priceChanged(value),
                         validator: (value) =>
                             value!.isEmpty ? 'Price can\'t empty' : null,
                         textInputType: TextInputType.number,
-                        hintText: 'Price',
+                        hintText: 'Enter price',
                       ),
-                      const SizedBox(height: 20.0),
-                      CustomGradientBtn(
-                        onTap: () => _submitForm(context,
-                            state.status == CreatePostStatus.submitting),
-                        label: 'Submit',
+                      const SizedBox(height: 15.0),
+                      SizedBox(
+                        height: 40.0,
+                        width: 120.0,
+                        child: ElevatedButton(
+                          onPressed: () => _submitForm(context,
+                              state.status == CreatePostStatus.submitting),
+                          child: const Text(
+                            'Submit',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 16.0),
+                          ),
+                        ),
                       ),
+                      // CustomGradientBtn(
+                      //   onTap: () => _submitForm(context,
+                      //       state.status == CreatePostStatus.submitting),
+                      //   label: 'Submit',
+                      // ),
+                      const SizedBox(height: 50.0),
                     ],
                   ),
                 ),

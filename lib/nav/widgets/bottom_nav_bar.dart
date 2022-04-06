@@ -36,15 +36,16 @@ class BottomNavBar extends StatelessWidget {
           // type: BottomNavigationBarType.shifting,
 
           type: BottomNavigationBarType.fixed,
-          // backgroundColor: Colors.white,
-          backgroundColor: const Color(0xff96DEF4),
+          backgroundColor: Colors.black,
+          // backgroundColor: const Color(0xff96DEF4),
           iconSize: 20,
           selectedFontSize: 12,
           unselectedFontSize: 13,
           selectedItemColor: Colors.white,
           // selectedItemColor: const Color(0XFF00286E),
           //selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.black,
+          //unselectedItemColor: Colors.black,
+          unselectedItemColor: Colors.grey,
           currentIndex: NavItem.values.indexOf(navItem!),
           onTap: (index) => onitemSelected!(NavItem.values[index]),
           items: NavItem.values.map((item) {
@@ -64,10 +65,10 @@ class BottomNavBar extends StatelessWidget {
 Widget _itemIcon(NavItem item) {
   if (item == NavItem.dashboard) {
     return const Icon(Icons.dashboard);
-  } else if (item == NavItem.search) {
-    return const Icon(Icons.groups, size: 26.0);
+  } else if (item == NavItem.wishlist) {
+    return const Icon(Icons.bookmark, size: 26.0);
   } else if (item == NavItem.nearby) {
-    return const Icon(Icons.girl_sharp, size: 26.0);
+    return const Icon(Icons.near_me, size: 26.0);
   } else if (item == NavItem.profile) {
     return const Icon(Icons.person, size: 24.0);
   }
@@ -78,10 +79,10 @@ Widget _itemIcon(NavItem item) {
 String _label(NavItem item) {
   if (item == NavItem.dashboard) {
     return 'Home';
-  } else if (item == NavItem.search) {
-    return 'Mentor Connect';
+  } else if (item == NavItem.wishlist) {
+    return 'Wishlist';
   } else if (item == NavItem.nearby) {
-    return 'Girl Table';
+    return 'Nearby';
   } else if (item == NavItem.profile) {
     return 'Profile';
   }

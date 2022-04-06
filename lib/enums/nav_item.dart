@@ -1,1 +1,1 @@
-enum NavItem { dashboard, search, nearby, profile }
+enum NavItem { dashboard, wishlist, nearby, profile }

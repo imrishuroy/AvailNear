@@ -8,10 +8,10 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 45.0,
-      width: 45.0,
+      height: 43.0,
+      width: 43.0,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: Colors.grey.shade400),
         borderRadius: BorderRadius.circular(14.0),
         // image: DecorationImage(
         //   fit: BoxFit.cover,
