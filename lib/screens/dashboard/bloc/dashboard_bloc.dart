@@ -1,21 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '/screens/feed/cubit/post_cubit.dart';
+import '/screens/dashboard/cubit/post_cubit.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/models/failure.dart';
-part 'feed_event.dart';
-part 'feed_state.dart';
+part 'dashboard_event.dart';
+part 'dashboard_state.dart';
 
-class FeedBloc extends Bloc<FeedEvent, FeedState> {
+class DashBoardBloc extends Bloc<DashBoardEvent, DashBoardState> {
   final AuthBloc _authBloc;
   final PostCubit _postCubit;
 
-  FeedBloc({
+  DashBoardBloc({
     required PostCubit postCubit,
     required AuthBloc authBloc,
   })  : _authBloc = authBloc,
         _postCubit = postCubit,
-        super(FeedState.initial()) {
+        super(DashBoardState.initial()) {
     _postCubit.loadOwnerPosts();
     print(_authBloc.state);
     on((event, emit) async {});

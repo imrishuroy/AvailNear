@@ -1,6 +1,5 @@
+import '/screens/dashboard/widgets/one_posts_card.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
-
-import '/screens/feed/widgets/one_posts_card.dart';
 import '/screens/wishlist/bloc/wishlist_bloc.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';

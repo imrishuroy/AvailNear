@@ -28,7 +28,8 @@ class PostCubit extends Cubit<PostState> {
     try {
       List<Future<Post?>> futurePosts = [];
       _likedPostsCubit.clearAllLikedPosts();
-
+      futurePosts = await _postRepository.getOwnerPosts(
+          ownerId: _authBloc.state.user?.userId);
       if (_authBloc.state.user?.userType == UserType.owner) {
         futurePosts = await _postRepository.getOwnerPosts(
             ownerId: _authBloc.state.user?.userId);

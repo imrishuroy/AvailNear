@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:finding_home/enums/nav_item.dart';
-import 'package:finding_home/nav/bloc/nav_bloc.dart';
-
+import '/enums/nav_item.dart';
+import '/nav/bloc/nav_bloc.dart';
 import '/widgets/error_dialog.dart';
 import '/widgets/show_snackbar.dart';
 import '/constants/constants.dart';
@@ -64,13 +63,32 @@ class _CreatePostState extends State<CreatePost> {
           return const LoadingIndicator();
         } else if (state.status == CreatePostStatus.error) {
           showDialog(
-              context: context,
-              builder: (_) => ErrorDialog(content: state.failure?.message));
+            context: context,
+            builder: (_) => ErrorDialog(content: state.failure?.message),
+          );
         }
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             appBar: AppBar(
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: GestureDetector(
+                  onTap: () => context
+                      .read<NavBloc>()
+                      .add(const UpdateNavItem(item: NavItem.dashboard)),
+                  child: const CircleAvatar(
+                    radius: 20.0,
+                    backgroundColor: Colors.black,
+                    child: Center(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               title: const Text('Create a post'),
               centerTitle: true,
               titleTextStyle: const TextStyle(
@@ -90,7 +108,7 @@ class _CreatePostState extends State<CreatePost> {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       //const SizedBox(height: 100.0),
                       Container(
@@ -98,7 +116,7 @@ class _CreatePostState extends State<CreatePost> {
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(color: Colors.grey.shade800),
                         ),
-                        height: _canvas.height * 0.3,
+                        height: _canvas.height * 0.28,
                         width: double.infinity,
                         child: state.images.isEmpty
                             ? Center(
@@ -106,7 +124,7 @@ class _CreatePostState extends State<CreatePost> {
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.black),
                                   icon: const Icon(Icons.add_a_photo),
-                                  label: const Text('Pick Image'),
+                                  label: const Text('Pick Images'),
                                   // onPressed: () => _pickImage(context),
                                   onPressed: () =>
                                       _createPostCubit.pickImages(),
@@ -173,16 +191,7 @@ class _CreatePostState extends State<CreatePost> {
                         textInputType: TextInputType.name,
                         hintText: 'Enter post title',
                       ),
-                      CustomTextField(
-                        labelText: 'Description',
-                        onChanged: (value) => context
-                            .read<CreatePostCubit>()
-                            .descriptionChanged(value),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Description can\'t empty' : null,
-                        textInputType: TextInputType.name,
-                        hintText: 'Enter post description',
-                      ),
+
                       CustomTextField(
                         labelText: 'Address',
                         onChanged: (value) => context
@@ -201,6 +210,17 @@ class _CreatePostState extends State<CreatePost> {
                             value!.isEmpty ? 'Price can\'t empty' : null,
                         textInputType: TextInputType.number,
                         hintText: 'Enter price',
+                      ),
+                      CustomTextField(
+                        maxLines: 3,
+                        labelText: 'Description',
+                        onChanged: (value) => context
+                            .read<CreatePostCubit>()
+                            .descriptionChanged(value),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Description can\'t empty' : null,
+                        textInputType: TextInputType.name,
+                        hintText: 'Enter post description',
                       ),
                       const SizedBox(height: 15.0),
                       SizedBox(

@@ -65,8 +65,8 @@ class BottomNavBar extends StatelessWidget {
 Widget _itemIcon(NavItem item) {
   if (item == NavItem.dashboard) {
     return const Icon(Icons.dashboard);
-  } else if (item == NavItem.wishlist) {
-    return const Icon(Icons.bookmark, size: 26.0);
+  } else if (item == NavItem.addPost) {
+    return const Icon(Icons.add, size: 26.0);
   } else if (item == NavItem.nearby) {
     return const Icon(Icons.near_me, size: 26.0);
   } else if (item == NavItem.profile) {
@@ -79,8 +79,8 @@ Widget _itemIcon(NavItem item) {
 String _label(NavItem item) {
   if (item == NavItem.dashboard) {
     return 'Home';
-  } else if (item == NavItem.wishlist) {
-    return 'Wishlist';
+  } else if (item == NavItem.addPost) {
+    return 'Add Post';
   } else if (item == NavItem.nearby) {
     return 'Nearby';
   } else if (item == NavItem.profile) {

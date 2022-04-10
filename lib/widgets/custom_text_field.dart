@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final String? initialValue;
   final String? labelText;
+  final int? maxLines;
 
   const CustomTextField({
     Key? key,
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.contentPadding = const EdgeInsets.fromLTRB(12, 8, 12, 8),
     this.initialValue,
     this.labelText,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -31,6 +33,7 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: TextFormField(
+        maxLines: maxLines,
         initialValue: initialValue,
         style: const TextStyle(color: Colors.black, fontSize: 16.0),
         onChanged: onChanged,
@@ -39,6 +42,7 @@ class CustomTextField extends StatelessWidget {
         obscureText: isPassowrdField,
         decoration: InputDecoration(
           labelText: labelText,
+
           contentPadding: contentPadding,
           //fillColor: const Color(0xff262626),
           filled: true,
@@ -50,7 +54,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
           ),
           prefixIcon:
-              prefixIcon != null ? Icon(prefixIcon, color: Colors.white) : null,
+              prefixIcon != null ? Icon(prefixIcon, color: Colors.grey) : null,
           suffixIcon: suffixIcon,
           labelStyle: const TextStyle(
             color: Colors.black,

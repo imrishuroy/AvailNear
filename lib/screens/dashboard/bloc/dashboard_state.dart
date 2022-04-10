@@ -1,18 +1,18 @@
-part of 'feed_bloc.dart';
+part of 'dashboard_bloc.dart';
 
 enum FeedStatus { initial, loading, succsss, error }
 
-class FeedState extends Equatable {
+class DashBoardState extends Equatable {
   final FeedStatus? status;
   final Failure? failure;
 
-  const FeedState({
+  const DashBoardState({
     required this.status,
     required this.failure,
   });
 
-  factory FeedState.initial() {
-    return const FeedState(
+  factory DashBoardState.initial() {
+    return const DashBoardState(
       status: FeedStatus.initial,
       failure: Failure(),
     );
@@ -21,11 +21,11 @@ class FeedState extends Equatable {
   @override
   List<Object?> get props => [status, failure];
 
-  FeedState copyWith({
+  DashBoardState copyWith({
     FeedStatus? status,
     Failure? failure,
   }) {
-    return FeedState(
+    return DashBoardState(
       status: status ?? this.status,
       failure: failure ?? this.failure,
     );

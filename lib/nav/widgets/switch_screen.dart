@@ -1,9 +1,9 @@
-import '/screens/feed/cubit/post_cubit.dart';
+import '../../screens/dashboard/dashboard.dart';
+import '../../screens/dashboard/bloc/dashboard_bloc.dart';
+import '/screens/dashboard/cubit/post_cubit.dart';
 import '/screens/wishlist/bloc/wishlist_bloc.dart';
 import '/screens/wishlist/wishlist_posts.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
-import '/screens/feed/bloc/feed_bloc.dart';
-import '/screens/feed/feed_screen.dart';
 import '/repositories/post/post_repository.dart';
 import '/screens/create-post/cubit/create_post_cubit.dart';
 import '/screens/create-post/create_post_screen.dart';
@@ -13,7 +13,6 @@ import '/screens/profile/cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '/screens/profile/owner/owner_profile.dart';
 import 'package:flutter/material.dart';
-
 import '/enums/nav_item.dart';
 
 class SwitchScreen extends StatelessWidget {
@@ -34,8 +33,8 @@ class SwitchScreen extends StatelessWidget {
                 authBloc: context.read<AuthBloc>(),
               ),
             ),
-            BlocProvider<FeedBloc>(
-              create: (context) => FeedBloc(
+            BlocProvider<DashBoardBloc>(
+              create: (context) => DashBoardBloc(
                 postCubit: context.read<PostCubit>(),
                 authBloc: context.read<AuthBloc>(),
               ),
@@ -44,7 +43,7 @@ class SwitchScreen extends StatelessWidget {
           child: const FeedScreen(),
         );
 
-      case NavItem.wishlist:
+      case NavItem.addPost:
         return BlocProvider<CreatePostCubit>(
           create: (context) => CreatePostCubit(
               authBloc: context.read<AuthBloc>(),
@@ -66,7 +65,8 @@ class SwitchScreen extends StatelessWidget {
         return BlocProvider<ProfileCubit>(
           create: (context) => ProfileCubit(
               profileRepository: context.read<ProfileRepository>(),
-              authBloc: context.read<AuthBloc>()),
+              authBloc: context.read<AuthBloc>())
+            ..loadCurrentUserProfile(),
           child: OwnerProfile(),
         );
 

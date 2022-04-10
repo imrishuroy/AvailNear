@@ -1,8 +1,8 @@
-import '/screens/feed/widgets/post_image_slider.dart';
 import '/models/post.dart';
 import 'package:flutter/material.dart';
 import 'discription_text.dart';
 import 'icon_count.dart';
+import 'post_image_slider.dart';
 
 class OnePostCard extends StatelessWidget {
   final Post? post;

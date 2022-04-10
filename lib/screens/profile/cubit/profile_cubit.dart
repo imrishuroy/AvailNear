@@ -69,14 +69,57 @@ class ProfileCubit extends Cubit<ProfileState> {
         name: state.name,
         photoUrl: downloadUrl,
         phoneNo: state.phNo,
+        address: state.address,
       );
 
-      await _profileRepository.createUserProfile(user: user);
+      await _profileRepository.updateUserProfile(user: user);
+
+      // createUserProfile(user: user);
       emit(state.copyWith(status: ProfileStatus.succuss));
     } on Failure catch (err) {
       emit(state.copyWith(failure: err, status: ProfileStatus.error));
     } catch (error) {
       print('Error in submitting owner details');
+    }
+  }
+
+  void loadCurrentUserProfile() async {
+    try {
+      emit(state.copyWith(status: ProfileStatus.loading));
+      final user = await _profileRepository.loadUserProfile(
+          userId: _authBloc.state.user?.userId);
+
+      print('loaded user $user');
+      emit(
+        state.copyWith(
+            status: ProfileStatus.succuss,
+            name: user?.name,
+            address: user?.address,
+            phNo: user?.phoneNo,
+            email: user?.email,
+            profileImg: user?.photoUrl),
+      );
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: ProfileStatus.error));
+    }
+  }
+
+  void updateUserProfile() async {
+    try {
+      emit(state.copyWith(status: ProfileStatus.loading));
+      final currentUser = _authBloc.state.user;
+
+      await _profileRepository.updateUserProfile(
+        user: currentUser?.copyWith(
+          name: state.name,
+          address: state.address,
+          phoneNo: state.phNo,
+          email: state.email,
+        ),
+      );
+      emit(state.copyWith(status: ProfileStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: ProfileStatus.error));
     }
   }
 }

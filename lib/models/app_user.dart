@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:equatable/equatable.dart';
-import 'package:finding_home/enums/user_type.dart';
+import '/enums/user_type.dart';
 
 class AppUser extends Equatable {
   final String? userId;
@@ -11,6 +11,7 @@ class AppUser extends Equatable {
   final String? name;
   final String? phoneNo;
   final String? email;
+  final String? address;
   final UserType userType;
 
   const AppUser({
@@ -19,6 +20,7 @@ class AppUser extends Equatable {
     this.name,
     this.phoneNo,
     this.email,
+    this.address,
     this.userType = UserType.unknown,
   });
 
@@ -29,6 +31,7 @@ class AppUser extends Equatable {
     String? phoneNo,
     String? email,
     UserType? userType,
+    String? address,
   }) {
     return AppUser(
       userId: userId ?? this.userId,
@@ -37,6 +40,7 @@ class AppUser extends Equatable {
       phoneNo: phoneNo ?? this.phoneNo,
       email: email ?? this.email,
       userType: userType ?? this.userType,
+      address: address ?? this.address,
     );
   }
 
@@ -49,6 +53,7 @@ class AppUser extends Equatable {
       'phoneNo': phoneNo,
       'email': email,
       'userType': type,
+      'address': address,
     };
   }
 
@@ -60,6 +65,7 @@ class AppUser extends Equatable {
       name: map['name'],
       phoneNo: map['phoneNo'],
       email: map['email'],
+      address: map['address'],
       userType: type ?? UserType.unknown,
     );
   }
@@ -74,6 +80,7 @@ class AppUser extends Equatable {
       name: data?['name'],
       photoUrl: data?['photoUrl'],
       phoneNo: data?['phoneNo'],
+      address: data?['address'],
       userType: type ?? UserType.unknown,
     );
   }

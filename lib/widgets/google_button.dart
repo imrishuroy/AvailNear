@@ -12,42 +12,55 @@ class GoogleSignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: SizedBox(
-        height: 43.0,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-              style: BorderStyle.solid,
-              width: 1.0,
-            ),
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: SizedBox(
-                  child: Image.asset('assets/google.png'),
-                ),
+    return SizedBox(
+      width: 300.0,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: SizedBox(
+          height: 43.0,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white,
+                style: BorderStyle.solid,
+                width: 1.0,
               ),
-              const SizedBox(width: 10.0),
-              Center(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.blue,
-                    fontSize: 17.0,
-                    letterSpacing: 1.0,
-                    fontFamily: 'Montserrat',
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Row(
+              //  mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.0),
+                        color: Colors.white),
+                    child: Image.asset('assets/google.png'),
                   ),
                 ),
-              )
-            ],
+                Expanded(
+                  child: Row(
+                    /// mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Spacer(),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: 17.0,
+                          letterSpacing: 1.0,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

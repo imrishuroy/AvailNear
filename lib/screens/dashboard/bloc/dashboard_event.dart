@@ -1,7 +1,7 @@
-part of 'feed_bloc.dart';
+part of 'dashboard_bloc.dart';
 
-abstract class FeedEvent extends Equatable {
-  const FeedEvent();
+abstract class DashBoardEvent extends Equatable {
+  const DashBoardEvent();
 
   @override
   List<Object> get props => [];

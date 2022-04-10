@@ -1,6 +1,6 @@
 part of 'profile_cubit.dart';
 
-enum ProfileStatus { initial, submitting, succuss, error }
+enum ProfileStatus { initial, submitting, loading, succuss, error }
 
 class ProfileState extends Equatable {
   final String? userId;
@@ -11,6 +11,7 @@ class ProfileState extends Equatable {
   final Uint8List? imageFile;
   final ProfileStatus status;
   final Failure? failure;
+  final String? profileImg;
 
   const ProfileState({
     this.userId,
@@ -21,6 +22,7 @@ class ProfileState extends Equatable {
     this.imageFile,
     required this.status,
     this.failure,
+    this.profileImg,
   });
 
   bool get isFormValid =>
@@ -50,6 +52,7 @@ class ProfileState extends Equatable {
         status,
         name,
         failure,
+        profileImg,
       ];
 
   ProfileState copyWith({
@@ -61,6 +64,7 @@ class ProfileState extends Equatable {
     ProfileStatus? status,
     String? name,
     Failure? failure,
+    String? profileImg,
   }) {
     return ProfileState(
       userId: userId ?? this.userId,
@@ -71,6 +75,7 @@ class ProfileState extends Equatable {
       status: status ?? this.status,
       name: name ?? this.name,
       failure: failure ?? this.failure,
+      profileImg: profileImg ?? this.profileImg,
     );
   }
 }
