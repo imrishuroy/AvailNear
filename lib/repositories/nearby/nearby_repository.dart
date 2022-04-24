@@ -6,14 +6,14 @@ import 'package:dio/dio.dart';
 class NearbyRepository extends BaseNearbyRepo {
   final _dio = Dio();
 
-  Future<List<Place?>> getNearBy() async {
+  Future<List<Place?>> getNearBy({required String? category}) async {
     final List<Place?> places = [];
     try {
       final params = {
         'location': '23.2465,77.5018',
         // 'radius': '1500',
-        'radius': '500',
-        'type': 'restaurant',
+        'radius': '2000',
+        'type': category,
         'key': 'AIzaSyCMbk9Bug3L7-HFZ6WEBhILQDsxpZDsGwA'
       };
       final response = await _dio.get(

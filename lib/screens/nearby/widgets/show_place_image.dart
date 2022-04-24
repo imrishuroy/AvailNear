@@ -1,8 +1,7 @@
-import 'package:availnear/repositories/nearby/nearby_repository.dart';
+import '/repositories/nearby/nearby_repository.dart';
 import 'package:availnear/widgets/display_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ShowPlaceImage extends StatefulWidget {
   final String? photoRef;
@@ -42,56 +41,21 @@ class _ShowPlaceImageState extends State<ShowPlaceImage> {
     return loading
         ? const Center(
             child: SizedBox(
-              height: 200.0,
-              width: 32.0,
+              height: 110.0,
+              width: 105.0,
               child: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(strokeWidth: 2.0),
               ),
             ),
           )
-        : Stack(
-            alignment: Alignment.topRight,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0),
-                ),
-                child: DisplayImage(
-                  imageUrl: imgUrl,
-                  height: 200.0,
-                ),
-              ),
-              Card(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 4.0,
-                    vertical: 1.0,
-                  ),
-                  child: RatingBar.builder(
-                    initialRating: 3,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemSize: 17.0,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 10.0,
-                    ),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
-                  ),
-                ),
-              ),
-            ],
+        : ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: DisplayImage(
+              imageUrl: imgUrl,
+              height: 110.0,
+              width: 105.0,
+              fit: BoxFit.cover,
+            ),
           );
   }
 }

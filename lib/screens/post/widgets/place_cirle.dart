@@ -7,20 +7,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'page.dart';
-
-class PlaceCirclePage extends GoogleMapExampleAppPage {
-  const PlaceCirclePage()
-      : super(const Icon(Icons.linear_scale), 'Place circle');
-
-  @override
-  Widget build(BuildContext context) {
-    return const PlaceCircleBody();
-  }
-}
-
 class PlaceCircleBody extends StatefulWidget {
-  const PlaceCircleBody();
+  const PlaceCircleBody({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => PlaceCircleBodyState();

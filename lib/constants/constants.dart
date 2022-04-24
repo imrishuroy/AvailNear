@@ -8,3 +8,5 @@ const String errorImage =
 const String owner = 'owner';
 
 const String renter = 'renter';
+
+const List<String> nearbyCategatories = ['restaurant', 'hospital', 'gym', ''];

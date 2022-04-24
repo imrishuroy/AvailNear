@@ -1,12 +1,9 @@
-import 'package:availnear/repositories/nearby/nearby_repository.dart';
-import 'package:availnear/screens/nearby/cubit/nearby_cubit.dart';
-import 'package:availnear/screens/nearby/nearby_screen.dart';
-
-import '../../screens/dashboard/dashboard.dart';
-import '../../screens/dashboard/bloc/dashboard_bloc.dart';
+import '/repositories/nearby/nearby_repository.dart';
+import '/screens/dashboard/bloc/dashboard_bloc.dart';
+import '/screens/dashboard/dashboard.dart';
+import '/screens/nearby/cubit/nearby_cubit.dart';
+import '/screens/nearby/nearby_screen.dart';
 import '/screens/dashboard/cubit/post_cubit.dart';
-import '/screens/wishlist/bloc/wishlist_bloc.dart';
-import '/screens/wishlist/wishlist_posts.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
 import '/repositories/post/post_repository.dart';
 import '/screens/create-post/cubit/create_post_cubit.dart';

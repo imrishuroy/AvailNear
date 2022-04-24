@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -126,174 +124,171 @@ class MapViewState extends State<MapView> {
     });
   }
 
-  void _remove(MarkerId markerId) {
-    setState(() {
-      if (markers.containsKey(markerId)) {
-        markers.remove(markerId);
-      }
-    });
-  }
+  // void _remove(MarkerId markerId) {
+  //   setState(() {
+  //     if (markers.containsKey(markerId)) {
+  //       markers.remove(markerId);
+  //     }
+  //   });
+  // }
 
-  void _changePosition(MarkerId markerId) {
-    final Marker marker = markers[markerId]!;
-    final LatLng current = marker.position;
-    final Offset offset = Offset(
-      center.latitude - current.latitude,
-      center.longitude - current.longitude,
-    );
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        positionParam: LatLng(
-          center.latitude + offset.dy,
-          center.longitude + offset.dx,
-        ),
-      );
-    });
-  }
+  // void _changePosition(MarkerId markerId) {
+  //   final Marker marker = markers[markerId]!;
+  //   final LatLng current = marker.position;
+  //   final Offset offset = Offset(
+  //     center.latitude - current.latitude,
+  //     center.longitude - current.longitude,
+  //   );
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       positionParam: LatLng(
+  //         center.latitude + offset.dy,
+  //         center.longitude + offset.dx,
+  //       ),
+  //     );
+  //   });
+  // }
 
-  void _changeAnchor(MarkerId markerId) {
-    final Marker marker = markers[markerId]!;
-    final Offset currentAnchor = marker.anchor;
-    final Offset newAnchor = Offset(1.0 - currentAnchor.dy, currentAnchor.dx);
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        anchorParam: newAnchor,
-      );
-    });
-  }
+  // void _changeAnchor(MarkerId markerId) {
+  //   final Marker marker = markers[markerId]!;
+  //   final Offset currentAnchor = marker.anchor;
+  //   final Offset newAnchor = Offset(1.0 - currentAnchor.dy, currentAnchor.dx);
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       anchorParam: newAnchor,
+  //     );
+  //   });
+  // }
 
-  Future<void> _changeInfoAnchor(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    final Offset currentAnchor = marker.infoWindow.anchor;
-    final Offset newAnchor = Offset(1.0 - currentAnchor.dy, currentAnchor.dx);
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        infoWindowParam: marker.infoWindow.copyWith(
-          anchorParam: newAnchor,
-        ),
-      );
-    });
-  }
+  // Future<void> _changeInfoAnchor(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   final Offset currentAnchor = marker.infoWindow.anchor;
+  //   final Offset newAnchor = Offset(1.0 - currentAnchor.dy, currentAnchor.dx);
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       infoWindowParam: marker.infoWindow.copyWith(
+  //         anchorParam: newAnchor,
+  //       ),
+  //     );
+  //   });
+  // }
 
-  Future<void> _toggleDraggable(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        draggableParam: !marker.draggable,
-      );
-    });
-  }
+  // Future<void> _toggleDraggable(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       draggableParam: !marker.draggable,
+  //     );
+  //   });
+  // }
 
-  Future<void> _toggleFlat(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        flatParam: !marker.flat,
-      );
-    });
-  }
+  // Future<void> _toggleFlat(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       flatParam: !marker.flat,
+  //     );
+  //   });
+  // }
 
-  Future<void> _changeInfo(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    final String newSnippet = marker.infoWindow.snippet! + '*';
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        infoWindowParam: marker.infoWindow.copyWith(
-          snippetParam: newSnippet,
-        ),
-      );
-    });
-  }
+  // Future<void> _changeInfo(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   final String newSnippet = marker.infoWindow.snippet! + '*';
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       infoWindowParam: marker.infoWindow.copyWith(
+  //         snippetParam: newSnippet,
+  //       ),
+  //     );
+  //   });
+  // }
 
-  Future<void> _changeAlpha(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    final double current = marker.alpha;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        alphaParam: current < 0.1 ? 1.0 : current * 0.75,
-      );
-    });
-  }
+  // Future<void> _changeAlpha(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   final double current = marker.alpha;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       alphaParam: current < 0.1 ? 1.0 : current * 0.75,
+  //     );
+  //   });
+  // }
 
-  Future<void> _changeRotation(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    final double current = marker.rotation;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        rotationParam: current == 330.0 ? 0.0 : current + 30.0,
-      );
-    });
-  }
+  // Future<void> _changeRotation(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   final double current = marker.rotation;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       rotationParam: current == 330.0 ? 0.0 : current + 30.0,
+  //     );
+  //   });
+  // }
 
-  Future<void> _toggleVisible(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        visibleParam: !marker.visible,
-      );
-    });
-  }
+  // Future<void> _toggleVisible(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       visibleParam: !marker.visible,
+  //     );
+  //   });
+  // }
 
-  Future<void> _changeZIndex(MarkerId markerId) async {
-    final Marker marker = markers[markerId]!;
-    final double current = marker.zIndex;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        zIndexParam: current == 12.0 ? 0.0 : current + 1.0,
-      );
-    });
-  }
+  // Future<void> _changeZIndex(MarkerId markerId) async {
+  //   final Marker marker = markers[markerId]!;
+  //   final double current = marker.zIndex;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       zIndexParam: current == 12.0 ? 0.0 : current + 1.0,
+  //     );
+  //   });
+  // }
 
-  void _setMarkerIcon(MarkerId markerId, BitmapDescriptor assetIcon) {
-    final Marker marker = markers[markerId]!;
-    setState(() {
-      markers[markerId] = marker.copyWith(
-        iconParam: assetIcon,
-      );
-    });
-  }
+  // void _setMarkerIcon(MarkerId markerId, BitmapDescriptor assetIcon) {
+  //   final Marker marker = markers[markerId]!;
+  //   setState(() {
+  //     markers[markerId] = marker.copyWith(
+  //       iconParam: assetIcon,
+  //     );
+  //   });
+  // }
 
-  Future<BitmapDescriptor> _getAssetIcon(BuildContext context) async {
-    final Completer<BitmapDescriptor> bitmapIcon =
-        Completer<BitmapDescriptor>();
-    final ImageConfiguration config = createLocalImageConfiguration(context);
+  // Future<BitmapDescriptor> _getAssetIcon(BuildContext context) async {
+  //   final Completer<BitmapDescriptor> bitmapIcon =
+  //       Completer<BitmapDescriptor>();
+  //   final ImageConfiguration config = createLocalImageConfiguration(context);
 
-    const AssetImage('assets/red_square.png')
-        .resolve(config)
-        .addListener(ImageStreamListener((ImageInfo image, bool sync) async {
-      final ByteData? bytes =
-          await image.image.toByteData(format: ImageByteFormat.png);
-      if (bytes == null) {
-        bitmapIcon.completeError(Exception('Unable to encode icon'));
-        return;
-      }
-      final BitmapDescriptor bitmap =
-          BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
-      bitmapIcon.complete(bitmap);
-    }));
+  //   const AssetImage('assets/red_square.png')
+  //       .resolve(config)
+  //       .addListener(ImageStreamListener((ImageInfo image, bool sync) async {
+  //     final ByteData? bytes =
+  //         await image.image.toByteData(format: ImageByteFormat.png);
+  //     if (bytes == null) {
+  //       bitmapIcon.completeError(Exception('Unable to encode icon'));
+  //       return;
+  //     }
+  //     final BitmapDescriptor bitmap =
+  //         BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+  //     bitmapIcon.complete(bitmap);
+  //   }));
 
-    return await bitmapIcon.future;
-  }
+  //   return await bitmapIcon.future;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final MarkerId? selectedId = selectedMarker;
-    return SizedBox(
-      height: 400.0,
-      child: Column(
-        children: [
-          Expanded(
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: const CameraPosition(
-                target: LatLng(23.2486, 77.5022),
-                zoom: 11.0,
-              ),
-              markers: Set<Marker>.of(markers.values),
+    //final MarkerId? selectedId = selectedMarker;
+    return Column(
+      children: [
+        Expanded(
+          child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(23.2486, 77.5022),
+              zoom: 11.0,
             ),
+            markers: Set<Marker>.of(markers.values),
           ),
-        ],
-      ),
+        ),
+      ],
     );
 
     // Stack(children: <Widget>[
