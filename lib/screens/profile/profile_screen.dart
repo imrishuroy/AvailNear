@@ -1,4 +1,4 @@
-import 'package:finding_home/config/shared_prefs.dart';
+import '/config/shared_prefs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:finding_home/config/paths.dart';
-import 'package:finding_home/models/app_user.dart';
-import 'package:finding_home/models/failure.dart';
-import 'package:finding_home/repositories/profile/base_profile_repo.dart';
+import '/config/paths.dart';
+import '/models/app_user.dart';
+import '/models/failure.dart';
+import '/repositories/profile/base_profile_repo.dart';
 
 class ProfileRepository extends BaseProfileRepository {
   final FirebaseFirestore _firestore;

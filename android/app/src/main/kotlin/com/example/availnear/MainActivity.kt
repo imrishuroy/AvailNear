@@ -1,4 +1,4 @@
-package com.sixteenbrains.finding_home
+package com.sixteenbrains.availnear
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,7 +6,7 @@ class NoImageAvailable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      'assets/no-image.png',
+      'assets/images/no-image.png',
       fit: BoxFit.cover,
     );
   }

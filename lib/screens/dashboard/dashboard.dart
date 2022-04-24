@@ -1,7 +1,6 @@
 import '/screens/dashboard/cubit/post_cubit.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
 import '/widgets/custom_container.dart';
-import '/blocs/bloc/auth_bloc.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +12,7 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _authBloc = context.read<AuthBloc>();
+    // final _authBloc = context.read<AuthBloc>();
 
     final _canvas = MediaQuery.of(context).size;
     return Scaffold(

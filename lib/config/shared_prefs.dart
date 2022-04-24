@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String keyTheme = 'theme';
 const String owner = 'owner';
-const String renter = 'renter';
+const String rentee = 'rentee';
 const String _token = 'token';
 const String _firstTime = 'first-time';
 const String _ownerType = 'ownerType';

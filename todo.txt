@@ -1,13 +1,18 @@
 Owner 
 
+
+
 Post (CRUD)
-1.Create Post 
+1.Create Post  add( bed, room, and baathroo, location pick on map, add pannorma image viewer)
+https://pub.dev/packages/panorama
+https://www.google.com/search?q=create+360+degree+photo+in+flutter&sxsrf=APq-WBvXdUZZH0ACR0o0Moaq7gVoxQ7umg%3A1650749662593&ei=3nBkYrjzI72bseMPuMajkA0&oq=create+360+degree+photo+im&gs_lcp=Cgdnd3Mtd2l6EAMYADIHCCEQChCgATIHCCEQChCgATIECCEQFTIICCEQFhAdEB4yCAghEBYQHRAeMggIIRAWEB0QHjIICCEQFhAdEB4yCAghEBYQHRAeOgcIIxDqAhAnOgQIIxAnOgUIABCRAjoECAAQQzoLCAAQgAQQsQMQgwE6BwgAELEDEEM6BQgAEIAEOg0ILhCABBDHARDRAxAKOgcIABCABBAKOgcILhCABBAKOgcIABCxAxAKOgQIABAKOgUIABCxAzoGCAAQFhAeOggIABAWEAoQHjoECAAQDToKCC4QxwEQrwEQDUoECEEYAEoECEYYAFCmB1jVP2DESWgCcAF4AIABogGIAfAOkgEEMC4xNZgBAKABAbABCsABAQ&sclient=gws-wiz
 2.Edit Post
 3.Delete Post
 4.Get Post 
 
+
 Post Image
-1.can have al least 2 or 3 images
+1.can have at least 2 or 3 images
 2.We can create pananormal view of room or in 3d
 
 

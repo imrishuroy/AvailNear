@@ -1,4 +1,4 @@
-import 'package:finding_home/config/shared_prefs.dart';
+import '/config/shared_prefs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +14,7 @@ import '/widgets/google_button.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import 'choose_user_type.dart';
 import 'cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -90,14 +91,16 @@ class LoginScreen extends StatelessWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 20.0),
+                          const SizedBox(height: 10.0),
                           Image.asset(
                             'assets/images/login.png',
                             height: 350.0,
                             width: 450.0,
                             fit: BoxFit.cover,
                           ),
-                          const SizedBox(height: 50.0),
+                          //const SizedBox(height: 20.0),
+                          const ChooseUserType(),
+                          const SizedBox(height: 20.0),
                           SizedBox(
                             width: 300.0,
                             child: SignInWithAppleButton(

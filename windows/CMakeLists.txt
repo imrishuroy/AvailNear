@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(finding_home LANGUAGES CXX)
+project(availnear LANGUAGES CXX)
 
-set(BINARY_NAME "finding_home")
+set(BINARY_NAME "availnear")
 
 cmake_policy(SET CMP0063 NEW)
 

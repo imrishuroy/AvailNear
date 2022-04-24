@@ -14,6 +14,8 @@ import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'cubits/cubit/liked_posts_cubit.dart';
 import 'repositories/auth/auth_repository.dart';
+import 'screens/post/widgets/map_view.dart';
+import 'screens/post/widgets/place_cirle.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -92,6 +94,8 @@ class MyApp extends StatelessWidget {
             ),
           ),
           debugShowCheckedModeBanner: false,
+
+          // home: PlaceCirclePage(),
           onGenerateRoute: CustomRouter.onGenerateRoute,
           initialRoute: AuthWrapper.routeName,
           // initialRoute: SharedPrefs().getUserType == null

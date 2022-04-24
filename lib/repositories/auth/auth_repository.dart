@@ -30,7 +30,7 @@ class AuthRepository extends BaseAuthRepository {
 
     if (SharedPrefs().getUserType == owner) {
       type = UserType.owner;
-    } else if (SharedPrefs().getUserType == renter) {
+    } else if (SharedPrefs().getUserType == rentee) {
       type = UserType.renter;
     } else {
       type = UserType.unknown;

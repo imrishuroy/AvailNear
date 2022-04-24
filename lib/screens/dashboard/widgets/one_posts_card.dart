@@ -1,8 +1,10 @@
+import '/config/shared_prefs.dart';
+import '/screens/post/post_details.dart';
+import '/widgets/image_slider.dart';
 import '/models/post.dart';
 import 'package:flutter/material.dart';
 import 'discription_text.dart';
 import 'icon_count.dart';
-import 'post_image_slider.dart';
 
 class OnePostCard extends StatelessWidget {
   final Post? post;
@@ -18,119 +20,131 @@ class OnePostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final _canvas = MediaQuery.of(context).size;
+    //final _authBloc = context.read<AuthBloc>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Card(
-        elevation: 5.0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            PostImageSlider(imgList: post?.images),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Text(
-                post?.title ?? 'N/A',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
+      child: GestureDetector(
+        onTap: () => Navigator.of(context).pushNamed(
+          PostDetails.routeName,
+          arguments: PostDetailsArgs(post: post),
+        ),
+        child: Card(
+          elevation: 5.0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ImageSlider(imgList: post?.images),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Text(
+                  post?.title ?? 'N/A',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 5.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    size: 15.0,
-                    color: Colors.black,
-                  ),
-                  const SizedBox(width: 5.0),
-                  Text(
-                    post?.address ?? 'N/A',
-                    style: const TextStyle(),
-                  ),
-                ],
+              const SizedBox(height: 5.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      size: 15.0,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(width: 5.0),
+                    Text(
+                      post?.address ?? 'N/A',
+                      style: const TextStyle(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 7.0),
-                  DescriptionTextWidget(
-                    text: post?.description ?? 'N/A',
-                  ),
-                  const SizedBox(height: 15.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      // bed, kitchen baathroom
-                      IconCount(
-                        icon: Icons.bed,
-                        count: 2,
-                        label: ' Bedroom',
-                      ),
-                      Spacer(),
-                      IconCount(
-                        icon: Icons.bathroom_outlined,
-                        // icon: FontAwesomeIcons.bath,
-                        count: 1,
-                        label: ' Bathroom',
-                      ),
-                      Spacer(),
-                      IconCount(
-                        icon: Icons.kitchen_rounded,
-                        count: 1,
-                        label: '  Kitchen',
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '₹${post?.price ?? ''}',
-                              style: const TextStyle(
-                                color: Colors.blue,
-                                //color: Color(0xff00c6e9),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18.0,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 7.0),
+                    DescriptionTextWidget(
+                      text: post?.description ?? 'N/A',
+                    ),
+                    const SizedBox(height: 15.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        // bed, kitchen baathroom
+                        IconCount(
+                          icon: Icons.bed,
+                          count: 2,
+                          label: ' Bedroom',
+                        ),
+                        Spacer(),
+                        IconCount(
+                          icon: Icons.bathroom_outlined,
+                          // icon: FontAwesomeIcons.bath,
+                          count: 1,
+                          label: ' Bathroom',
+                        ),
+                        Spacer(),
+                        IconCount(
+                          icon: Icons.kitchen_rounded,
+                          count: 1,
+                          label: '  Kitchen',
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '₹${post?.price ?? ''}',
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  //color: Color(0xff00c6e9),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0,
+                                ),
                               ),
+                              TextSpan(
+                                text: ' /mo',
+                                style: TextStyle(
+                                  color: Colors.grey.shade500,
+                                  fontSize: 14.0,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        if (SharedPrefs().getUserType == 'rentee')
+                          GestureDetector(
+                            onTap: onTap,
+                            child: Icon(
+                              isWishlisted
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_add,
+                              color: isWishlisted
+                                  ? Colors.black
+                                  : Colors.grey.shade600,
                             ),
-                            TextSpan(
-                              text: ' /mo',
-                              style: TextStyle(
-                                color: Colors.grey.shade500,
-                                fontSize: 14.0,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: onTap,
-                        icon: Icon(
-                          isWishlisted ? Icons.bookmark : Icons.bookmark_add,
-                          color: isWishlisted
-                              ? Colors.black
-                              : Colors.grey.shade600,
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 10.0),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

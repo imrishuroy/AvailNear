@@ -1,5 +1,5 @@
-import 'package:finding_home/config/shared_prefs.dart';
-import 'package:finding_home/enums/user_type.dart';
+import '/config/shared_prefs.dart';
+import '/enums/user_type.dart';
 import 'package:flutter/material.dart';
 
 // enum UserType { owner, renter }
@@ -47,7 +47,7 @@ class _ChooseUserTypeState extends State<ChooseUserType> {
                 groupValue: _type,
                 onChanged: (UserType? value) async {
                   if (value != null) {
-                    await SharedPrefs().setUserType(renter);
+                    await SharedPrefs().setUserType(rentee);
                     setState(() {
                       _type = value;
                     });
@@ -71,8 +71,8 @@ class _ChooseUserTypeState extends State<ChooseUserType> {
 
 
 
-// import 'package:finding_home/config/shared_prefs.dart';
-// import 'package:finding_home/enums/user_type.dart';
+// import '/config/shared_prefs.dart';
+// import '/enums/user_type.dart';
 // import 'package:flutter/material.dart';
 
 // // enum UserType { owner, renter }

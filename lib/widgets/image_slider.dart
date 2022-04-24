@@ -3,14 +3,16 @@ import '/widgets/display_image.dart';
 import '/widgets/no_image.dart';
 import 'package:flutter/material.dart';
 
-class PostImageSlider extends StatefulWidget {
+class ImageSlider extends StatefulWidget {
   final List? imgList;
   final double? borderRadius;
+  final double bottomRadius;
 
-  const PostImageSlider({
+  const ImageSlider({
     Key? key,
     required this.imgList,
     this.borderRadius,
+    this.bottomRadius = 0,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class PostImageSlider extends StatefulWidget {
   }
 }
 
-class _CarouselWithIndicatorState extends State<PostImageSlider> {
+class _CarouselWithIndicatorState extends State<ImageSlider> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
@@ -30,8 +32,10 @@ class _CarouselWithIndicatorState extends State<PostImageSlider> {
     print('Image List ${widget.imgList}');
     print(name?.isNotEmpty);
     if (widget.imgList != null) {
+      print('this runs ---');
       if (widget.imgList!.isEmpty) {
-        return const SizedBox(height: 170.0, child: NoImageAvailable());
+        print('this runs ---');
+        return const SizedBox(child: NoImageAvailable());
       }
     }
 
@@ -44,9 +48,11 @@ class _CarouselWithIndicatorState extends State<PostImageSlider> {
                   //    height: 300.0,
                   // margin: EdgeInsets.all(5.0),
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12.0),
-                      topRight: Radius.circular(12.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(12.0),
+                      topRight: const Radius.circular(12.0),
+                      bottomLeft: Radius.circular(widget.bottomRadius),
+                      bottomRight: Radius.circular(widget.bottomRadius),
                     ),
                     child: Stack(
                       children: <Widget>[

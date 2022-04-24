@@ -79,9 +79,8 @@ class Post extends Equatable {
       owner: data?['owner'] != null ? AppUser.fromDocument(userSnap) : null,
       price: data?['price']?.toInt(),
       address: data?['address'],
-      images: List<String?>.from(
-        data?['images'],
-      ),
+      images:
+          data?['images'] != null ? List<String?>.from(data?['images']) : [],
       createdAt: data?['createdAt'] != null
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,

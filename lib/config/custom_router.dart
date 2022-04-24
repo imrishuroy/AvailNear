@@ -1,3 +1,4 @@
+import '/screens/post/post_details.dart';
 import 'package:flutter/material.dart';
 import '/nav/nav_screen.dart';
 import '/screens/login/login_screen.dart';
@@ -26,8 +27,8 @@ class CustomRouter {
       case SignupScreen.routeName:
         return SignupScreen.route();
 
-      // case ChooseUser.routeName:
-      //   return ChooseUser.route();
+      case PostDetails.routeName:
+        return PostDetails.route(args: settings.arguments as PostDetailsArgs);
 
       default:
         return _errorRoute();

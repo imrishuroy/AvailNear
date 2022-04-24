@@ -1,6 +1,6 @@
 {
-    "name": "finding_home",
-    "short_name": "finding_home",
+    "name": "availnear",
+    "short_name": "availnear",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

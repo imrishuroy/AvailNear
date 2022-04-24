@@ -1,13 +1,10 @@
-import 'package:finding_home/blocs/bloc/auth_bloc.dart';
-import 'package:finding_home/enums/enums.dart';
-import 'package:finding_home/nav/bloc/nav_bloc.dart';
-
+import '/blocs/bloc/auth_bloc.dart';
+import '/enums/enums.dart';
+import '/nav/bloc/nav_bloc.dart';
 import '/config/shared_prefs.dart';
 import '/repositories/auth/auth_repository.dart';
 import '/screens/profile/cubit/profile_cubit.dart';
 import '/utils/image_util.dart';
-import '/widgets/circle_button.dart';
-import '/widgets/custom_button.dart';
 import '/widgets/custom_text_field.dart';
 import '/widgets/error_dialog.dart';
 import '/widgets/loading_indicator.dart';

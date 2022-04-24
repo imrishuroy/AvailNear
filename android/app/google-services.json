@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "428303357222",
-    "project_id": "finding-home-caca4",
-    "storage_bucket": "finding-home-caca4.appspot.com"
+    "project_number": "956271597317",
+    "project_id": "availnear",
+    "storage_bucket": "availnear.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:428303357222:android:b6ef3e872e20aaf890dde7",
+        "mobilesdk_app_id": "1:956271597317:android:6fd17fcb1e57013c21896c",
         "android_client_info": {
-          "package_name": "com.sixteenbrains.finding_home"
+          "package_name": "com.sixteenbrains.availnear"
         }
       },
       "oauth_client": [
         {
-          "client_id": "428303357222-6hb1h1gthbiv00tt7en8gkq0c1urhja1.apps.googleusercontent.com",
+          "client_id": "956271597317-7idtnjct6fdhkbl7a4r8j08pkku33fns.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.sixteenbrains.finding_home",
+            "package_name": "com.sixteenbrains.availnear",
             "certificate_hash": "5f4a627044fd33829b0c7b57b2cbd65eced82e86"
           }
         },
         {
-          "client_id": "428303357222-98cke8peb7scn534jgm4aaogffmc9co5.apps.googleusercontent.com",
+          "client_id": "956271597317-qjqiusvct3dq4u0p6jbr6deu0hc006ui.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyABt5TQXtZXfTW0NK6lbxMopaEU0-NCMno"
+          "current_key": "AIzaSyBUaFhdvNcdCGu8F6cJBDC4jRNysew8KtI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "428303357222-98cke8peb7scn534jgm4aaogffmc9co5.apps.googleusercontent.com",
+              "client_id": "956271597317-qjqiusvct3dq4u0p6jbr6deu0hc006ui.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
