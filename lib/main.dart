@@ -1,3 +1,4 @@
+import 'package:availnear/repositories/nearby/nearby_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import '/repositories/post/post_repository.dart';
@@ -14,8 +15,6 @@ import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'cubits/cubit/liked_posts_cubit.dart';
 import 'repositories/auth/auth_repository.dart';
-import 'screens/post/widgets/map_view.dart';
-import 'screens/post/widgets/place_cirle.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -60,6 +59,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<PostRepository>(
           create: (_) => PostRepository(),
+        ),
+        RepositoryProvider<NearbyRepository>(
+          create: (_) => NearbyRepository(),
         )
       ],
       child: MultiBlocProvider(
