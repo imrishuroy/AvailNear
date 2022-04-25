@@ -1,4 +1,5 @@
 import 'package:availnear/constants/constants.dart';
+import 'package:availnear/models/place_details.dart';
 import 'package:availnear/utils/location_util.dart';
 
 import '/models/failure.dart';
@@ -28,10 +29,40 @@ class NearbyCubit extends Cubit<NearbyState> {
     }
   }
 
+  void getSearchPlacesPhotos({required List<String?> photoRefs}) async {
+    try {
+      emit(state.copyWith(status: NearbyStatus.photosLoading));
+      List<String> photoUrls = [];
+      for (var item in photoRefs) {
+        if (item != null) {
+          final photoUrl =
+              await _nearbyRepository.getPlacePhoto(photoRef: item);
+          if (photoUrl != null) {
+            photoUrls.add(photoUrl);
+          }
+        }
+      }
+      emit(state.copyWith(
+          placePhotoUrls: photoUrls, status: NearbyStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: NearbyStatus.error));
+    }
+  }
+
   void nearbyCategoryChanged(String? value) {
     if (value != null) {
       emit(state.copyWith(nearbyCategory: value, status: NearbyStatus.initial));
       fetchNearBy();
+    }
+  }
+
+  void getPlaceDetails({required String? placeId}) async {
+    try {
+      emit(state.copyWith(status: NearbyStatus.loading));
+      final details = await _nearbyRepository.getPlaceDetails(placeId: placeId);
+      emit(state.copyWith(status: NearbyStatus.succuss, placeDetails: details));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: NearbyStatus.error));
     }
   }
 

@@ -101,7 +101,7 @@ class DashBoard extends StatelessWidget {
                               )
                             ],
                           ),
-                          const SizedBox(height: 20.0),
+                          const SizedBox(height: 25.0),
                           RichText(
                             text: const TextSpan(
                               children: [
@@ -190,49 +190,49 @@ class DashBoard extends StatelessWidget {
                           //     ),
                           //   ],
                           // ),
-                          const SizedBox(height: 17.0),
+                          const SizedBox(height: 10.0),
                         ],
                       ),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        // contentPadding: contentPadding,
-                        // fillColor: const Color(0xff262626),
-                        //fillColor: const Color(0xffCAF0F8),
-                        filled: true,
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey.shade700),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey.shade700),
-                        ),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.black,
-                        ),
-                        suffixIcon: const Icon(
-                          Icons.sort,
-                          color: Colors.black,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Montserrat',
-                          fontSize: 14.0,
-                          letterSpacing: 1.0,
-                        ),
-                        hintText: 'Search your nearby',
-                        hintStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
+                    // TextField(
+                    //   decoration: InputDecoration(
+                    //     fillColor: Colors.white,
+                    //     // contentPadding: contentPadding,
+                    //     // fillColor: const Color(0xff262626),
+                    //     //fillColor: const Color(0xffCAF0F8),
+                    //     filled: true,
+                    //     focusedBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //       borderSide: BorderSide(color: Colors.grey.shade700),
+                    //     ),
+                    //     enabledBorder: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //       borderSide: BorderSide(color: Colors.grey.shade700),
+                    //     ),
+                    //     prefixIcon: const Icon(
+                    //       Icons.search,
+                    //       color: Colors.black,
+                    //     ),
+                    //     suffixIcon: const Icon(
+                    //       Icons.sort,
+                    //       color: Colors.black,
+                    //     ),
+                    //     labelStyle: const TextStyle(
+                    //       color: Colors.white,
+                    //       fontFamily: 'Montserrat',
+                    //       fontSize: 14.0,
+                    //       letterSpacing: 1.0,
+                    //     ),
+                    //     hintText: 'Search your nearby',
+                    //     hintStyle: const TextStyle(color: Colors.black),
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(10.0),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(height: 10.0),
                     SizedBox(
-                      height: _canvas.height * 0.55,
+                      height: _canvas.height * 0.7,
                       child: BlocConsumer<PostCubit, PostState>(
                         listener: (context, state) {},
                         builder: (context, state) {

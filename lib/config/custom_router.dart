@@ -1,3 +1,5 @@
+import 'package:availnear/screens/nearby/nearby_details.dart';
+
 import '/screens/post/post_details_screen.dart';
 import '/screens/post/screens/panorama_screen.dart';
 import '/screens/search-place/search_screen.dart';
@@ -37,6 +39,10 @@ class CustomRouter {
 
       case PanormaScreen.routeName:
         return PanormaScreen.route();
+
+      case NearbyDetails.routeName:
+        return NearbyDetails.route(
+            args: settings.arguments as NearbyDetailsArgs);
 
       default:
         return _errorRoute();

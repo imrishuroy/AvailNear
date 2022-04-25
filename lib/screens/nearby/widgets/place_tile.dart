@@ -1,5 +1,5 @@
+import '/screens/nearby/nearby_details.dart';
 import '/models/place.dart';
-import '/screens/post/widgets/map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -17,11 +17,8 @@ class PlaceTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const MapView(),
-          ),
-        ),
+        onTap: () => Navigator.of(context).pushNamed(NearbyDetails.routeName,
+            arguments: NearbyDetailsArgs(place: place)),
         child: Column(
           children: [
             Row(

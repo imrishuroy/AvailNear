@@ -1,3 +1,5 @@
+import 'package:availnear/widgets/error_dialog.dart';
+
 import '/constants/constants.dart';
 import '/screens/nearby/cubit/nearby_cubit.dart';
 import '/widgets/loading_indicator.dart';
@@ -13,14 +15,21 @@ class NearByScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // final _nearbyCubit = context.read<NearbyCubit>().state;
     return BlocConsumer<NearbyCubit, NearbyState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.status == NearbyStatus.error) {
+          showDialog(
+            context: context,
+            builder: (_) => ErrorDialog(content: state.failure.message),
+          );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
             centerTitle: true,
             title: const Text(
-              'Explore Your NearBy',
+              ' Explore Your NearBy 📍',
               style: TextStyle(color: Colors.black),
             ),
           ),
