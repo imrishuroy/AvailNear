@@ -1,3 +1,5 @@
+import 'package:location/location.dart';
+
 import '/models/failure.dart';
 import '/models/place.dart';
 import '/repositories/nearby/base_nearby_repo.dart';
@@ -6,11 +8,18 @@ import 'package:dio/dio.dart';
 class NearbyRepository extends BaseNearbyRepo {
   final _dio = Dio();
 
-  Future<List<Place?>> getNearBy({required String? category}) async {
+  Future<List<Place?>> getNearBy({
+    required String? category,
+    required LocationData? location,
+  }) async {
     final List<Place?> places = [];
     try {
+      if (category == null || location == null) {
+        return [];
+      }
+
       final params = {
-        'location': '23.2465,77.5018',
+        'location': '${location.latitude},${location.longitude}',
         // 'radius': '1500',
         'radius': '2000',
         'type': category,
@@ -69,6 +78,31 @@ class NearbyRepository extends BaseNearbyRepo {
     } catch (error) {
       print('Error in getting place photo');
       throw const Failure(message: 'Error in getting image');
+    }
+  }
+
+  Future placeAutoComplete({
+    required String keyword,
+    required LocationData? location,
+  }) async {
+    try {
+      if (location == null) {
+        return;
+      }
+
+      final params = {
+        'input': keyword,
+        'location': '${location.latitude},${location.longitude}',
+        'radius': '2000',
+        'key': 'AIzaSyCMbk9Bug3L7-HFZ6WEBhILQDsxpZDsGwA'
+      };
+
+      final response = await _dio.get(
+          'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+          queryParameters: params);
+    } catch (error) {
+      print('Error in place autocomplete');
+      throw const Failure(message: 'Error in place autocomplete ');
     }
   }
 }

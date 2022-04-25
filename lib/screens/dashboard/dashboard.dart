@@ -1,3 +1,5 @@
+import '/blocs/bloc/auth_bloc.dart';
+import '/widgets/display_image.dart';
 import '/screens/dashboard/cubit/post_cubit.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
 import '/widgets/custom_container.dart';
@@ -7,19 +9,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/dashboard_bloc.dart';
 import 'widgets/one_posts_card.dart';
 
-class FeedScreen extends StatelessWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+class DashBoard extends StatelessWidget {
+  const DashBoard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final _authBloc = context.read<AuthBloc>();
+    final _authBloc = context.read<AuthBloc>();
 
     final _canvas = MediaQuery.of(context).size;
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(onPressed: () async {
+      //   final possition = await LocationUtil.getCurrentAddress();
+      // }
+      //  print('Location ${await LocationUtil.getCurrentLocation()}'),
+      //),
       body: BlocConsumer<DashBoardBloc, DashBoardState>(
         listener: (context, state) {},
         builder: (context, state) {
-          if (state.status == FeedStatus.loading) {
+          if (state.status == DashBoardStatus.loading) {
             return const LoadingIndicator();
           }
 
@@ -41,21 +48,12 @@ class FeedScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                height: 45.0,
-                                width: 45.0,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14.0),
-                                  image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        'https://firebasestorage.googleapis.com/v0/b/finding-home-caca4.appspot.com/o/profileImages%2Fz0PW9JMgAiNZtOxAOCAtwKi5WHn1?alt=media&token=8369fda4-b840-4bf3-a477-a81bd542a0a5'
-                                        //'https://media.istockphoto.com/vectors/girl-petting-a-dog-vector-id1216956845?k=20&m=1216956845&s=612x612&w=0&h=Df8QyBEhwsZqZ7boeoH28Pvm6ulOTiqGQ8bEXNKLIIc='
-                                        // 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80',
-                                        // _authBloc.state.user?.photoUrl ??
-                                        //     errorImage,
-                                        ),
-                                  ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(14.0),
+                                child: DisplayImage(
+                                  imageUrl: _authBloc.state.user?.photoUrl,
+                                  height: 45.0,
+                                  width: 45.0,
                                 ),
                               ),
                               const SizedBox(width: 10.0),
@@ -65,11 +63,9 @@ class FeedScreen extends StatelessWidget {
                                   const Text('Hi'),
                                   SizedBox(
                                     width: _canvas.width * 0.5,
-                                    child: const Text(
-                                      // 'Maidam',
-                                      'Nishant',
-                                      // _authBloc.state.user?.name ?? 'N/A',
-                                      style: TextStyle(
+                                    child: Text(
+                                      _authBloc.state.user?.name ?? 'N/A',
+                                      style: const TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -145,13 +141,14 @@ class FeedScreen extends StatelessWidget {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
-                                'Bhopal, Patel Nagar',
-                                style: TextStyle(fontSize: 16.0),
+                                state.currentAddress ?? 'N/A',
+                                // 'Bhopal, Patel Nagar',
+                                style: const TextStyle(fontSize: 16.0),
                               ),
-                              SizedBox(width: 4.0),
-                              Icon(
+                              const SizedBox(width: 4.0),
+                              const Icon(
                                 Icons.location_on,
                                 color: Colors.red,
                                 size: 22.0,

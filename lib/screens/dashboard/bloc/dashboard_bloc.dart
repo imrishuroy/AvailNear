@@ -1,3 +1,4 @@
+import 'package:availnear/utils/location_util.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '/screens/dashboard/cubit/post_cubit.dart';
@@ -18,6 +19,11 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DashBoardState> {
         super(DashBoardState.initial()) {
     _postCubit.loadOwnerPosts();
     print(_authBloc.state);
-    on((event, emit) async {});
+
+    on<LoadCurrentAddress>((event, emit) async {
+      final currentAddress = await LocationUtil.getCurrentAddress();
+      emit(state.copyWith(
+          currentAddress: currentAddress, status: DashBoardStatus.succsss));
+    });
   }
 }

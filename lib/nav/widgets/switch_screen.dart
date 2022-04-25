@@ -38,10 +38,10 @@ class SwitchScreen extends StatelessWidget {
               create: (context) => DashBoardBloc(
                 postCubit: context.read<PostCubit>(),
                 authBloc: context.read<AuthBloc>(),
-              ),
+              )..add(LoadCurrentAddress()),
             )
           ],
-          child: const FeedScreen(),
+          child: const DashBoard(),
         );
 
       case NavItem.addPost:

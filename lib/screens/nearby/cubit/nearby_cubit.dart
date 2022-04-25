@@ -1,4 +1,5 @@
 import 'package:availnear/constants/constants.dart';
+import 'package:availnear/utils/location_util.dart';
 
 import '/models/failure.dart';
 import '/models/place.dart';
@@ -17,8 +18,10 @@ class NearbyCubit extends Cubit<NearbyState> {
   void fetchNearBy() async {
     try {
       emit(state.copyWith(status: NearbyStatus.loading));
-      final places =
-          await _nearbyRepository.getNearBy(category: state.nearbyCategory);
+      final location = await LocationUtil.getCurrentLocation();
+
+      final places = await _nearbyRepository.getNearBy(
+          category: state.nearbyCategory, location: location);
       emit(state.copyWith(places: places, status: NearbyStatus.succuss));
     } on Failure catch (failure) {
       emit(state.copyWith(failure: failure, status: NearbyStatus.error));
