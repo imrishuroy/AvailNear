@@ -1,8 +1,9 @@
-import 'package:availnear/repositories/nearby/nearby_repository.dart';
+import 'package:availnear/config/auth_wrapper.dart';
+
+import '/repositories/nearby/nearby_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import '/repositories/post/post_repository.dart';
-import '/config/auth_wrapper.dart';
 import '/repositories/profile/profile_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +16,7 @@ import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'cubits/cubit/liked_posts_cubit.dart';
 import 'repositories/auth/auth_repository.dart';
-import 'screens/search-place/search_place.dart';
+import 'screens/search-place/place_exp.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -98,8 +99,9 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
 
-          home: SearchPlace(),
-          // onGenerateRoute: CustomRouter.onGenerateRoute,
+          home: PlaceExp(),
+          //onGenerateRoute: CustomRouter.onGenerateRoute,
+          // initialRoute: AuthWrapper.routeName,
           // initialRoute: AuthWrapper.routeName,
           // initialRoute: SharedPrefs().getUserType == null
           //     ? ChooseUser.routeName

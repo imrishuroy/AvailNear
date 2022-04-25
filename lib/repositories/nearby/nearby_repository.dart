@@ -1,3 +1,6 @@
+import 'package:availnear/models/place_details.dart';
+
+import '/models/searched_Item.dart';
 import 'package:location/location.dart';
 
 import '/models/failure.dart';
@@ -86,6 +89,7 @@ class NearbyRepository extends BaseNearbyRepo {
     required LocationData? location,
   }) async {
     try {
+      List<SearchedItem?> items = [];
       if (location == null) {
         return;
       }
@@ -100,9 +104,45 @@ class NearbyRepository extends BaseNearbyRepo {
       final response = await _dio.get(
           'https://maps.googleapis.com/maps/api/place/autocomplete/json',
           queryParameters: params);
+
+      if (response.statusCode == 200) {
+        final predections = response.data['predictions'] as List? ?? [];
+        for (var element in predections) {
+          items.add(SearchedItem.fromMap(element));
+        }
+      }
+      return items;
     } catch (error) {
       print('Error in place autocomplete');
       throw const Failure(message: 'Error in place autocomplete ');
+    }
+  }
+
+  Future<PlaceDetails?> getPlaceDetails({required String? placeId}) async {
+    try {
+      if (placeId == null) {
+        return null;
+      }
+      final params = {
+        'place_id': placeId,
+        'key': 'AIzaSyCMbk9Bug3L7-HFZ6WEBhILQDsxpZDsGwA'
+      };
+      final response = await _dio.get(
+          'https://maps.googleapis.com/maps/api/place/details/json',
+          queryParameters: params);
+
+      if (response.statusCode == 200) {
+        final result = response.data['result'];
+        if (result != null) {
+          return PlaceDetails.fromMap(result);
+          // print(
+          //     'geometyr ${result['geometry']['location']['lat'].runtimeType}');
+        }
+      }
+      return null;
+    } catch (error) {
+      print('Error getting place details ${error.toString()}');
+      throw const Failure(message: 'Error getting place details');
     }
   }
 }

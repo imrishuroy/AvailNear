@@ -22,8 +22,10 @@ class DashBoardBloc extends Bloc<DashBoardEvent, DashBoardState> {
 
     on<LoadCurrentAddress>((event, emit) async {
       final currentAddress = await LocationUtil.getCurrentAddress();
+
       emit(state.copyWith(
-          currentAddress: currentAddress, status: DashBoardStatus.succsss));
+          currentAddress: event.address ?? currentAddress,
+          status: DashBoardStatus.succsss));
     });
   }
 }

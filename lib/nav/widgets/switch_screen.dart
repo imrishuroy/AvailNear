@@ -38,7 +38,7 @@ class SwitchScreen extends StatelessWidget {
               create: (context) => DashBoardBloc(
                 postCubit: context.read<PostCubit>(),
                 authBloc: context.read<AuthBloc>(),
-              )..add(LoadCurrentAddress()),
+              )..add(const LoadCurrentAddress(address: null)),
             )
           ],
           child: const DashBoard(),

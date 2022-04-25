@@ -7,7 +7,11 @@ abstract class DashBoardEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadCurrentAddress extends DashBoardEvent {}
+class LoadCurrentAddress extends DashBoardEvent {
+  final String? address;
+
+  const LoadCurrentAddress({required this.address});
+}
 
 // class FeedFetchPosts extends FeedEvent {}
 

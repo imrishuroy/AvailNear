@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final String? labelText;
   final int? maxLines;
+  final TextEditingController? controller;
 
   const CustomTextField({
     Key? key,
@@ -26,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     this.labelText,
     this.maxLines,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: TextFormField(
+        controller: controller,
         maxLines: maxLines,
         initialValue: initialValue,
         style: const TextStyle(color: Colors.black, fontSize: 16.0),

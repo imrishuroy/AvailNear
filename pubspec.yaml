@@ -29,7 +29,6 @@ environment:
 dependencies:
   cached_network_image: ^3.2.0
   camera: ^0.9.4+16
-  #camerawesome: ^0.3.0
   carousel_slider: ^4.0.0
   cloud_firestore: ^3.1.10
   connectivity_plus: ^2.2.1
@@ -56,6 +55,7 @@ dependencies:
   geolocator: ^8.2.0
   google_fonts: ^2.3.1
   google_maps_flutter: ^2.1.2
+  google_place: ^0.4.7
   google_sign_in: ^5.2.4
   http: ^0.13.4
   image_cropper: ^1.5.0

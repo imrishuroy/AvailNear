@@ -1,3 +1,5 @@
+import 'package:availnear/screens/search-place/search_screen.dart';
+
 import '/screens/post/post_details.dart';
 import 'package:flutter/material.dart';
 import '/nav/nav_screen.dart';
@@ -29,6 +31,9 @@ class CustomRouter {
 
       case PostDetails.routeName:
         return PostDetails.route(args: settings.arguments as PostDetailsArgs);
+
+      case SearchScreen.routeName:
+        return SearchScreen.route();
 
       default:
         return _errorRoute();

@@ -1,3 +1,5 @@
+import '/models/place_details.dart';
+import '/screens/search-place/search_screen.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/widgets/display_image.dart';
 import '/screens/dashboard/cubit/post_cubit.dart';
@@ -136,25 +138,55 @@ class DashBoard extends StatelessWidget {
                                 'Location',
                                 style: TextStyle(color: Colors.grey.shade700),
                               ),
-                              const Icon(Icons.arrow_drop_down)
+                              const SizedBox(width: 10.0),
+                              GestureDetector(
+                                onTap: () async {
+                                  final placeDetails =
+                                      await Navigator.of(context)
+                                              .pushNamed(SearchScreen.routeName)
+                                          as PlaceDetails?;
+                                  print('Place details $placeDetails');
+                                  if (placeDetails?.formatedAddress != null) {
+                                    context.read<DashBoardBloc>().add(
+                                          LoadCurrentAddress(
+                                              address: placeDetails!
+                                                  .formatedAddress!),
+                                        );
+                                  }
+                                },
+                                child: const Icon(
+                                  Icons.my_location,
+                                  size: 22.0,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+
+                              //Icon(Icons.arrow_drop_down)
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.currentAddress ?? 'N/A',
-                                // 'Bhopal, Patel Nagar',
-                                style: const TextStyle(fontSize: 16.0),
-                              ),
-                              const SizedBox(width: 4.0),
-                              const Icon(
-                                Icons.location_on,
-                                color: Colors.red,
-                                size: 22.0,
-                              ),
-                            ],
+                          const SizedBox(height: 2.0),
+                          Text(
+                            state.currentAddress ?? 'N/A',
+                            style: const TextStyle(fontSize: 16.0),
                           ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     SizedBox(
+                          //       width: _canvas.width * 0.75,
+                          //       child: Text(
+                          //         state.currentAddress ?? 'N/A',
+                          //         // 'Bhopal, Patel Nagar',
+                          //         style: const TextStyle(fontSize: 16.0),
+                          //       ),
+                          //     ),
+                          //     const SizedBox(width: 4.0),
+                          //     const Icon(
+                          //       Icons.location_on,
+                          //       color: Colors.redAccent,
+                          //     ),
+                          //   ],
+                          // ),
                           const SizedBox(height: 17.0),
                         ],
                       ),

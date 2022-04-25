@@ -1,21 +1,66 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+class MapView1 extends StatefulWidget {
+  final double? lat;
+  final double? long;
+  const MapView1({Key? key, this.lat, this.long}) : super(key: key);
+
+  @override
+  State<MapView1> createState() => _MapView1State();
+}
+
+class _MapView1State extends State<MapView1> {
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  GoogleMapController? controller;
+
+  void _onMapCreated(GoogleMapController controller) {
+    this.controller = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(widget.lat ?? 23.2486, widget.long ?? 77.5022),
+              zoom: 17.0,
+            ),
+            markers: Set<Marker>.of(markers.values),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+// import 'dart:async';
+
+// import 'package:flutter/material.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class MapView extends StatefulWidget {
-  const MapView({Key? key}) : super(key: key);
+  final double? lat;
+  final double? long;
+  const MapView({
+    Key? key,
+    this.lat,
+    this.long,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => MapViewState();
 }
 
-typedef MarkerUpdateAction = Marker Function(Marker marker);
+// typedef MarkerUpdateAction = Marker Function(Marker marker);
 
 class MapViewState extends State<MapView> {
   MapViewState();
-  static const LatLng center = LatLng(23.2486, 77.5022);
+
+  // LatLng center = LatLng(23.2486, 77.5022);
 
   GoogleMapController? controller;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -106,13 +151,13 @@ class MapViewState extends State<MapView> {
     final String markerIdVal = 'marker_id_$_markerIdCounter';
     _markerIdCounter++;
     final MarkerId markerId = MarkerId(markerIdVal);
-
+    //LatLng(23.2486, 77.5022);
     final Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(
-        center.latitude + sin(_markerIdCounter * pi / 6.0) / 20.0,
-        center.longitude + cos(_markerIdCounter * pi / 6.0) / 20.0,
-      ),
+      position: LatLng(widget.lat ?? 23.2486, widget.long ?? 77.5022
+          // center.latitude + sin(_markerIdCounter * pi / 6.0) / 20.0,
+          // center.longitude + cos(_markerIdCounter * pi / 6.0) / 20.0,
+          ),
       infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       onTap: () => _onMarkerTapped(markerId),
       onDragEnd: (LatLng position) => _onMarkerDragEnd(markerId, position),
@@ -275,15 +320,17 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+    print('map Lat ${widget.lat}');
+    print('map long ${widget.long}');
     //final MarkerId? selectedId = selectedMarker;
     return Column(
       children: [
         Expanded(
           child: GoogleMap(
             onMapCreated: _onMapCreated,
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(23.2486, 77.5022),
-              zoom: 11.0,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(widget.lat ?? 23.2486, widget.long ?? 77.5022),
+              zoom: 17.0,
             ),
             markers: Set<Marker>.of(markers.values),
           ),
