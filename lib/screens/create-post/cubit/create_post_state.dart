@@ -1,6 +1,6 @@
 part of 'create_post_cubit.dart';
 
-enum CreatePostStatus { initial, submitting, succuss, error }
+enum CreatePostStatus { initial, loading, submitting, succuss, error }
 
 class CreatePostState extends Equatable {
   final String? title;
@@ -11,8 +11,18 @@ class CreatePostState extends Equatable {
   final List<XFile?> images;
   final Failure? failure;
   final CreatePostStatus status;
+  final double? lat;
+  final double? long;
+  final String? noOfBedRoom;
+  final String? noOfBathRoom;
+  final String? noOfKitchen;
 
   const CreatePostState({
+    this.lat,
+    this.long,
+    this.noOfBedRoom,
+    this.noOfBathRoom,
+    this.noOfKitchen,
     this.title,
     this.description,
     this.address,
@@ -32,6 +42,11 @@ class CreatePostState extends Equatable {
         images: [],
         failure: Failure(),
         status: CreatePostStatus.initial,
+        lat: null,
+        long: null,
+        noOfBedRoom: null,
+        noOfBathRoom: null,
+        noOfKitchen: null,
       );
 
   @override
@@ -45,6 +60,11 @@ class CreatePostState extends Equatable {
       images,
       status,
       failure,
+      lat,
+      long,
+      noOfBedRoom,
+      noOfBathRoom,
+      noOfKitchen,
     ];
   }
 
@@ -55,8 +75,13 @@ class CreatePostState extends Equatable {
     AppUser? owner,
     int? price,
     List<XFile?>? images,
-    CreatePostStatus? status,
     Failure? failure,
+    CreatePostStatus? status,
+    double? lat,
+    double? long,
+    String? noOfBedRoom,
+    String? noOfBathRoom,
+    String? noOfKitchen,
   }) {
     return CreatePostState(
       title: title ?? this.title,
@@ -65,13 +90,18 @@ class CreatePostState extends Equatable {
       owner: owner ?? this.owner,
       price: price ?? this.price,
       images: images ?? this.images,
-      status: status ?? this.status,
       failure: failure ?? this.failure,
+      status: status ?? this.status,
+      lat: lat ?? this.lat,
+      long: long ?? this.long,
+      noOfBedRoom: noOfBedRoom ?? this.noOfBedRoom,
+      noOfBathRoom: noOfBathRoom ?? this.noOfBathRoom,
+      noOfKitchen: noOfKitchen ?? this.noOfKitchen,
     );
   }
 
   @override
   String toString() {
-    return 'CreatePostState(name: $title, description: $description, address: $address, owner: $owner, price: $price, images: $images, status: $status,failure: $failure)';
+    return 'CreatePostState(title: $title, description: $description, address: $address, owner: $owner, price: $price, images: $images, failure: $failure, status: $status, lat: $lat, long: $long, noOfBedRoom: $noOfBedRoom, noOfBathRoom: $noOfBathRoom, noOfKitchen: $noOfKitchen)';
   }
 }

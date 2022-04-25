@@ -19,7 +19,7 @@ class OnePostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final _canvas = MediaQuery.of(context).size;
+    final _canvas = MediaQuery.of(context).size;
     //final _authBloc = context.read<AuthBloc>();
     print('Post -- ${post?.geoPoint}');
     return Padding(
@@ -59,9 +59,12 @@ class OnePostCard extends StatelessWidget {
                       color: Colors.black,
                     ),
                     const SizedBox(width: 5.0),
-                    Text(
-                      post?.address ?? 'N/A',
-                      style: const TextStyle(),
+                    SizedBox(
+                      width: _canvas.width * 0.75,
+                      child: Text(
+                        post?.address ?? 'N/A',
+                        style: const TextStyle(),
+                      ),
                     ),
                   ],
                 ),
@@ -78,26 +81,26 @@ class OnePostCard extends StatelessWidget {
                     const SizedBox(height: 15.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         // bed, kitchen baathroom
                         IconCount(
                           icon: Icons.bed,
-                          count: 2,
+                          count: post?.noOfBedRoom ?? '',
                           label: ' Bedroom',
                         ),
-                        Spacer(),
+                        const Spacer(),
+                        IconCount(
+                          icon: Icons.kitchen_rounded,
+                          count: post?.noOfKitchen ?? 'N/A',
+                          label: '  Kitchen',
+                        ),
+                        const Spacer(),
                         IconCount(
                           icon: Icons.bathroom_outlined,
                           // icon: FontAwesomeIcons.bath,
-                          count: 1,
+                          count: post?.noOfBathRoom,
                           label: ' Bathroom',
                         ),
-                        Spacer(),
-                        IconCount(
-                          icon: Icons.kitchen_rounded,
-                          count: 1,
-                          label: '  Kitchen',
-                        )
                       ],
                     ),
                     const SizedBox(height: 10.0),

@@ -1,4 +1,6 @@
+import 'package:availnear/utils/location_util.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:uuid/uuid.dart';
 import '/blocs/bloc/auth_bloc.dart';
@@ -38,6 +40,18 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   void priceChanged(String value) {
     emit(state.copyWith(
         price: int.tryParse(value), status: CreatePostStatus.initial));
+  }
+
+  void bedsChanged(String value) {
+    emit(state.copyWith(noOfBedRoom: value, status: CreatePostStatus.initial));
+  }
+
+  void kitchenChanged(String value) {
+    emit(state.copyWith(noOfKitchen: value, status: CreatePostStatus.initial));
+  }
+
+  void bathroomChanged(String value) {
+    emit(state.copyWith(noOfBathRoom: value, status: CreatePostStatus.initial));
   }
 
   void clearSelectedImage() {
@@ -107,6 +121,10 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         owner: _authBloc.state.user,
         price: state.price,
         createdAt: DateTime.now(),
+        noOfBathRoom: state.noOfBathRoom,
+        noOfBedRoom: state.noOfBedRoom,
+        noOfKitchen: state.noOfKitchen,
+        geoPoint: GeoPoint(state.lat ?? 23.2527576, state.long ?? 77.5012589),
       );
       await _postRepository.addPost(post: post);
 
@@ -116,6 +134,29 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       emit(state.copyWith(
           failure: const Failure(message: 'Error in submitting post'),
           status: CreatePostStatus.error));
+    }
+  }
+
+  void changeLocation({
+    required String? address,
+    required double? lat,
+    required double? long,
+  }) {
+    emit(state.copyWith(lat: lat, long: long, address: address));
+  }
+
+  void getCurrentLocation() async {
+    try {
+      emit(state.copyWith(status: CreatePostStatus.loading));
+      final address = await LocationUtil.getCurrentAddress();
+      final locationData = await LocationUtil.getCurrentLocation();
+      emit(state.copyWith(
+          address: address,
+          lat: locationData?.latitude,
+          long: locationData?.longitude,
+          status: CreatePostStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(status: CreatePostStatus.error, failure: failure));
     }
   }
 }

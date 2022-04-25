@@ -1,4 +1,8 @@
 import 'dart:io';
+import '/models/place_details.dart';
+import 'package:availnear/screens/search-place/search_screen.dart';
+import 'package:flutter/services.dart';
+
 import '/enums/nav_item.dart';
 import '/nav/bloc/nav_bloc.dart';
 import '/widgets/error_dialog.dart';
@@ -52,21 +56,48 @@ class _CreatePostState extends State<CreatePost> {
     }
   }
 
+  final _addressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final _canvas = MediaQuery.of(context).size;
     final _createPostCubit = context.read<CreatePostCubit>();
     return BlocConsumer<CreatePostCubit, CreatePostState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        if (state.status == CreatePostStatus.submitting) {
-          return const LoadingIndicator();
-        } else if (state.status == CreatePostStatus.error) {
+      listener: (context, state) {
+        if (state.status == CreatePostStatus.error) {
           showDialog(
             context: context,
             builder: (_) => ErrorDialog(content: state.failure?.message),
           );
         }
+        if (state.status == CreatePostStatus.succuss) {
+          _addressController.text = state.address ?? '';
+        }
+      },
+      builder: (context, state) {
+        if (state.status == CreatePostStatus.submitting) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              LoadingIndicator(),
+              SizedBox(height: 20.0),
+              Text('Submitting your deails please wait...')
+            ],
+          );
+        }
+        if (state.status == CreatePostStatus.loading) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              LoadingIndicator(),
+              SizedBox(height: 20.0),
+              Text('Getting your current location...')
+            ],
+          );
+        }
+        print('Create post lat ${state.lat}');
+        print('Create post lat ${state.long}');
+
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
@@ -110,7 +141,6 @@ class _CreatePostState extends State<CreatePost> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      //const SizedBox(height: 100.0),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -192,8 +222,29 @@ class _CreatePostState extends State<CreatePost> {
                         textInputType: TextInputType.name,
                         hintText: 'Enter post title',
                       ),
-
                       CustomTextField(
+                        controller: _addressController,
+                        suffixIcon: IconButton(
+                            icon: const Icon(
+                              Icons.add_location,
+                              color: Colors.blue,
+                            ),
+                            onPressed: () async {
+                              final placeDetails = await Navigator.of(context)
+                                      .pushNamed(SearchScreen.routeName)
+                                  as PlaceDetails?;
+                              if (placeDetails != null) {
+                                _addressController.text =
+                                    placeDetails.formatedAddress ?? '';
+
+                                context.read<CreatePostCubit>().changeLocation(
+                                      address: placeDetails.formatedAddress,
+                                      lat: placeDetails.lat,
+                                      long: placeDetails.long,
+                                    );
+                              }
+                            }),
+                        // initialValue: state.address,
                         labelText: 'Address',
                         onChanged: (value) => context
                             .read<CreatePostCubit>()
@@ -211,6 +262,68 @@ class _CreatePostState extends State<CreatePost> {
                             value!.isEmpty ? 'Price can\'t empty' : null,
                         textInputType: TextInputType.number,
                         hintText: 'Enter price',
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 5.0),
+                              child: CustomTextField(
+                                labelText: 'Beds',
+                                onChanged: (value) => context
+                                    .read<CreatePostCubit>()
+                                    .bedsChanged(value),
+                                validator: (value) => value!.isEmpty
+                                    ? 'No of beds can\'t empty'
+                                    : null,
+                                textInputType: TextInputType.number,
+                                hintText: 'No.',
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: CustomTextField(
+                                labelText: 'Kitchen',
+                                textInputType: TextInputType.number,
+                                onChanged: (value) => context
+                                    .read<CreatePostCubit>()
+                                    .kitchenChanged(value),
+                                validator: (value) => value!.isEmpty
+                                    ? 'No of kitchen can\'t empty'
+                                    : null,
+                                hintText: 'No.',
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: CustomTextField(
+                                textInputType: TextInputType.number,
+                                labelText: 'Bathroom',
+                                onChanged: (value) => context
+                                    .read<CreatePostCubit>()
+                                    .bathroomChanged(value),
+                                validator: (value) => value!.isEmpty
+                                    ? 'No of bathroom can\'t empty'
+                                    : null,
+                                hintText: 'No.',
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       CustomTextField(
                         maxLines: 3,
@@ -237,11 +350,6 @@ class _CreatePostState extends State<CreatePost> {
                           ),
                         ),
                       ),
-                      // CustomGradientBtn(
-                      //   onTap: () => _submitForm(context,
-                      //       state.status == CreatePostStatus.submitting),
-                      //   label: 'Submit',
-                      // ),
                       const SizedBox(height: 50.0),
                     ],
                   ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class IconCount extends StatelessWidget {
   final IconData icon;
-  final int? count;
+  final String? count;
   final String label;
 
   const IconCount({
@@ -19,7 +19,7 @@ class IconCount extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text('${count ?? 'N/A'}'),
+            Text(count ?? 'N/A'),
             const SizedBox(width: 3.0),
             Icon(
               icon,

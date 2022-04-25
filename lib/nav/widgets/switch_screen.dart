@@ -48,7 +48,8 @@ class SwitchScreen extends StatelessWidget {
         return BlocProvider<CreatePostCubit>(
           create: (context) => CreatePostCubit(
               authBloc: context.read<AuthBloc>(),
-              postRepository: context.read<PostRepository>()),
+              postRepository: context.read<PostRepository>())
+            ..getCurrentLocation(),
           child: const CreatePost(),
         );
 

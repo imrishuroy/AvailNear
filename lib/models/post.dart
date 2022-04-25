@@ -1,6 +1,8 @@
 import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
 import '/config/paths.dart';
 import '/models/app_user.dart';
 
@@ -14,8 +16,14 @@ class Post extends Equatable {
   final List<String?> images;
   final DateTime? createdAt;
   final GeoPoint? geoPoint;
+  final String? noOfBedRoom;
+  final String? noOfBathRoom;
+  final String? noOfKitchen;
 
   const Post({
+    this.noOfBedRoom,
+    this.noOfBathRoom,
+    this.noOfKitchen,
     this.postId,
     this.title,
     this.description,
@@ -26,30 +34,6 @@ class Post extends Equatable {
     this.createdAt,
     this.geoPoint,
   });
-
-  Post copyWith({
-    String? postId,
-    String? title,
-    String? description,
-    AppUser? owner,
-    int? price,
-    String? address,
-    List<String?>? images,
-    DateTime? createdAt,
-    GeoPoint? geoPoint,
-  }) {
-    return Post(
-      postId: postId ?? this.postId,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      owner: owner ?? this.owner,
-      price: price ?? this.price,
-      address: address ?? this.address,
-      images: images ?? this.images,
-      createdAt: createdAt ?? this.createdAt,
-      geoPoint: geoPoint ?? this.geoPoint,
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -66,6 +50,9 @@ class Post extends Equatable {
       'images': images,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
       'geopoint': geoPoint,
+      'noOfBathRoom': noOfBathRoom,
+      'noOfBedRoom': noOfBedRoom,
+      'noOfKitchen': noOfKitchen,
     };
   }
 
@@ -93,6 +80,9 @@ class Post extends Equatable {
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,
       geoPoint: geoPoint,
+      noOfKitchen: data?['noOfKitchen'],
+      noOfBathRoom: data?['noOfBathRoom'],
+      noOfBedRoom: data?['noOfBedRoom'],
     );
   }
 
@@ -100,7 +90,7 @@ class Post extends Equatable {
 
   @override
   String toString() {
-    return 'Post(title: $title, description: $description, owner: $owner, price: $price, address: $address, images: $images, postId: $postId, createdAt: $createdAt, geoPoint: $geoPoint)';
+    return 'Post(postId: $postId, title: $title, description: $description, owner: $owner, price: $price, address: $address, images: $images, createdAt: $createdAt, geoPoint: $geoPoint, noOfBedRoom: $noOfBedRoom, noOfBathRoom: $noOfBathRoom, noOfKitchen: $noOfKitchen)';
   }
 
   @override
@@ -116,5 +106,35 @@ class Post extends Equatable {
       createdAt,
       geoPoint,
     ];
+  }
+
+  Post copyWith({
+    String? postId,
+    String? title,
+    String? description,
+    AppUser? owner,
+    int? price,
+    String? address,
+    List<String?>? images,
+    DateTime? createdAt,
+    GeoPoint? geoPoint,
+    String? noOfBedRoom,
+    String? noOfBathRoom,
+    String? noOfKitchen,
+  }) {
+    return Post(
+      postId: postId ?? this.postId,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      owner: owner ?? this.owner,
+      price: price ?? this.price,
+      address: address ?? this.address,
+      images: images ?? this.images,
+      createdAt: createdAt ?? this.createdAt,
+      geoPoint: geoPoint ?? this.geoPoint,
+      noOfBedRoom: noOfBedRoom ?? this.noOfBedRoom,
+      noOfBathRoom: noOfBathRoom ?? this.noOfBathRoom,
+      noOfKitchen: noOfKitchen ?? this.noOfKitchen,
+    );
   }
 }

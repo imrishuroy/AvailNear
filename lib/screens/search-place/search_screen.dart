@@ -1,4 +1,4 @@
-import 'package:availnear/widgets/loading_indicator.dart';
+import '/widgets/loading_indicator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import '/repositories/nearby/nearby_repository.dart';

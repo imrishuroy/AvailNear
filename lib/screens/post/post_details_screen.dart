@@ -90,22 +90,25 @@ class PostDetails extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // if (SharedPrefs().getUserType == 'rentee')
-                    GestureDetector(
-                      onTap: () {
-                        if (isWishlist) {
-                          context
-                              .read<LikedPostsCubit>()
-                              .unlikePost(post: post!);
-                        } else {
-                          context.read<LikedPostsCubit>().likePost(post: post);
-                        }
-                      },
-                      child: Icon(
-                        isWishlist ? Icons.bookmark : Icons.bookmark_add,
-                        color: isWishlist ? Colors.black : Colors.grey.shade600,
+                    if (SharedPrefs().getUserType == rentee)
+                      GestureDetector(
+                        onTap: () {
+                          if (isWishlist) {
+                            context
+                                .read<LikedPostsCubit>()
+                                .unlikePost(post: post!);
+                          } else {
+                            context
+                                .read<LikedPostsCubit>()
+                                .likePost(post: post);
+                          }
+                        },
+                        child: Icon(
+                          isWishlist ? Icons.bookmark : Icons.bookmark_add,
+                          color:
+                              isWishlist ? Colors.black : Colors.grey.shade600,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 5.0),
@@ -142,26 +145,26 @@ class PostDetails extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     // bed, kitchen baathroom
                     IconCount(
                       icon: Icons.bed,
-                      count: 2,
+                      count: post?.noOfBedRoom ?? 'N/A',
                       label: ' Bedroom',
                     ),
-                    Spacer(),
+                    const Spacer(),
+                    IconCount(
+                      icon: Icons.kitchen_rounded,
+                      count: post?.noOfKitchen,
+                      label: '  Kitchen',
+                    ),
+                    const Spacer(),
                     IconCount(
                       icon: Icons.bathroom_outlined,
                       // icon: FontAwesomeIcons.bath,
-                      count: 1,
+                      count: post?.noOfBathRoom,
                       label: ' Bathroom',
                     ),
-                    Spacer(),
-                    IconCount(
-                      icon: Icons.kitchen_rounded,
-                      count: 1,
-                      label: '  Kitchen',
-                    )
                   ],
                 ),
                 const SizedBox(height: 10.0),
@@ -174,9 +177,12 @@ class PostDetails extends StatelessWidget {
                       color: Colors.black,
                     ),
                     const SizedBox(width: 5.0),
-                    Text(
-                      post?.address ?? 'N/A',
-                      style: const TextStyle(),
+                    SizedBox(
+                      width: _canvas.width * 0.75,
+                      child: Text(
+                        post?.address ?? 'N/A',
+                        style: const TextStyle(),
+                      ),
                     ),
                   ],
                 ),
