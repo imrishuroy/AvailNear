@@ -1,5 +1,4 @@
-import 'package:availnear/screens/search-place/search_screen.dart';
-
+import '/screens/search-place/search_screen.dart';
 import '/screens/post/post_details.dart';
 import 'package:flutter/material.dart';
 import '/nav/nav_screen.dart';

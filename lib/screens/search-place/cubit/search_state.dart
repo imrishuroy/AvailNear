@@ -1,6 +1,6 @@
 part of 'search_cubit.dart';
 
-enum SearchStatus { initial, locading, error, succuss }
+enum SearchStatus { initial, loading, error, succuss, searching }
 
 class SearchState extends Equatable {
   final LocationData? locationData;
@@ -11,6 +11,7 @@ class SearchState extends Equatable {
   final double? lat;
   final double? long;
   final PlaceDetails? placeDetails;
+  final List<String?> searchedPlacePhotos;
 
   const SearchState({
     this.locationData,
@@ -21,6 +22,7 @@ class SearchState extends Equatable {
     this.lat,
     this.long,
     this.placeDetails,
+    this.searchedPlacePhotos = const [],
   });
 
   factory SearchState.initial() => const SearchState(
@@ -32,6 +34,7 @@ class SearchState extends Equatable {
         lat: null,
         long: null,
         placeDetails: null,
+        searchedPlacePhotos: [],
       );
 
   @override
@@ -44,6 +47,7 @@ class SearchState extends Equatable {
         lat,
         long,
         placeDetails,
+        searchedPlacePhotos,
       ];
 
   SearchState copyWith({
@@ -55,6 +59,7 @@ class SearchState extends Equatable {
     double? lat,
     double? long,
     PlaceDetails? placeDetails,
+    List<String?>? searchedPlacePhotos,
   }) {
     return SearchState(
       locationData: locationData ?? this.locationData,
@@ -65,11 +70,12 @@ class SearchState extends Equatable {
       lat: lat ?? this.lat,
       long: long ?? this.long,
       placeDetails: placeDetails ?? this.placeDetails,
+      searchedPlacePhotos: searchedPlacePhotos ?? this.searchedPlacePhotos,
     );
   }
 
   @override
   String toString() {
-    return 'SearchState(locationData: $locationData, initialText: $initialText, failure: $failure, status: $status searchResults: $searchResults, lat: $lat, long: $long, placeDetails : $placeDetails)';
+    return 'SearchState(locationData: $locationData, initialText: $initialText, failure: $failure, status: $status searchResults: $searchResults, lat: $lat, long: $long, placeDetails : $placeDetails , searchedPlacePhotos: $searchedPlacePhotos)';
   }
 }

@@ -16,7 +16,6 @@ import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'cubits/cubit/liked_posts_cubit.dart';
 import 'repositories/auth/auth_repository.dart';
-import 'screens/search-place/place_exp.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -99,9 +98,9 @@ class MyApp extends StatelessWidget {
           ),
           debugShowCheckedModeBanner: false,
 
-          home: PlaceExp(),
-          //onGenerateRoute: CustomRouter.onGenerateRoute,
-          // initialRoute: AuthWrapper.routeName,
+          //home: PlaceExp(),
+          onGenerateRoute: CustomRouter.onGenerateRoute,
+          initialRoute: AuthWrapper.routeName,
           // initialRoute: AuthWrapper.routeName,
           // initialRoute: SharedPrefs().getUserType == null
           //     ? ChooseUser.routeName

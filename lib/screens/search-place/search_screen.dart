@@ -1,8 +1,12 @@
+import 'package:availnear/widgets/loading_indicator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:uuid/uuid.dart';
 import '/repositories/nearby/nearby_repository.dart';
 import '/screens/search-place/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'widgets/search_place_photos.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String routeName = '/search';
@@ -28,52 +32,79 @@ class _SearchScreenState extends State<SearchScreen> {
   final _seachController = TextEditingController();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   GoogleMapController? controller;
-  //Completer<GoogleMapController> _controller = Completer();
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController? controller) {
     this.controller = controller;
   }
 
   @override
   void initState() {
+    //final _searchCubit = context.read<SearchCubit>();
+
     super.initState();
-    _addMarker();
+    _onMapCreated(controller);
+    // if (_searchCubit.state.lat != null && _searchCubit.state.long != null) {
+    //   _addMarker(
+    //     markerUID: 'Initial',
+    //     lat: _searchCubit.state.lat,
+    //     long: _searchCubit.state.long,
+    //   );
+    // }
+    // _addMarker(
+    //   markerUID: 'Initial',
+    //   lat: _searchCubit.state.lat,
+    //   long: _searchCubit.state.long,
+    // );
   }
 
   MarkerId? selectedMarker;
-  final int _markerIdCounter = 1;
+  int _markerIdCounter = 1;
 
-  void changeCameraPosition({required double lat, required long}) async {
+  void changeCameraPosition(
+      {required double? lat, required double? long}) async {
+    print('camera lat ------- $lat');
+    print('camera long ------- $long');
     final cameraUpdate = CameraUpdate.newCameraPosition(
       CameraPosition(
-        target: LatLng(lat, long),
+        target: LatLng(lat ?? 23.2486, long ?? 77.5022),
         zoom: 16.0,
       ),
     );
-
-    //final GoogleMapController controller = await _controller.future;
-    // controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
     controller?.animateCamera(cameraUpdate);
   }
 
   void _addMarker({double? lat, double? long}) {
-    const int markerCount = 1;
+    print('Market lat long - $lat , $long');
+    final int markerCount = markers.length;
+
+    if (markerCount == 12) {
+      return;
+    }
+    _markerIdCounter++;
+    final String markerIdVal = 'marker_id_$_markerIdCounter';
+    // _markerIdCounter++;
+
+    //final MarkerId markerId = MarkerId(markerUID);
+    // const int markerCount = 1;
     //markers.length;
 
     if (markerCount == 12) {
       return;
     }
 
-    final String markerIdVal = 'marker_id_$_markerIdCounter';
-    //  _markerIdCounter++;
-    final MarkerId markerId = MarkerId(markerIdVal);
     //LatLng(23.2486, 77.5022);
+    final id = const Uuid().v4();
+    final MarkerId markerId = MarkerId(id);
     final Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(lat ?? 23.2486, long ?? 77.5022
-          // center.latitude + sin(_markerIdCounter * pi / 6.0) / 20.0,
-          // center.longitude + cos(_markerIdCounter * pi / 6.0) / 20.0,
-          ),
+      // position: LatLng(
+      //   lat ?? 23.2486 + sin(_markerIdCounter * pi / 6.0) / 20.0,
+      //   lat ?? 777.5022 + cos(_markerIdCounter * pi / 6.0) / 20.0,
+      // ),
+      position: LatLng(lat ?? 23.2486, long ?? 77.5022),
+      // center.latitude + sin(_markerIdCounter * pi / 6.0) / 20.0,
+      // center.longitude + cos(_markerIdCounter * pi / 6.0) / 20.0,
+
       infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       onTap: () {},
       // _onMarkerTapped(markerId),
@@ -89,8 +120,21 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SearchCubit, SearchState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.status == SearchStatus.succuss) {
+          _addMarker(
+            // markerUID: const Uuid().v4(),
+            lat: state.lat,
+            long: state.long,
+          );
+        }
+      },
       builder: (context, state) {
+        if (state.status == SearchStatus.searching) {
+          return const Scaffold(body: LoadingIndicator());
+        }
+        print('State lat -- ${state.lat}');
+        print('State long -- ${state.long}');
         return Scaffold(
           appBar: AppBar(
             iconTheme: const IconThemeData(color: Colors.black),
@@ -99,43 +143,50 @@ class _SearchScreenState extends State<SearchScreen> {
               controller: _seachController,
               onChanged: (value) {
                 context.read<SearchCubit>().searchItem(value: value);
-                // if (state.lat != null && state.long != null) {
-                //   _addMarker(lat: state.lat, long: state.long);
-
-                //   changeCameraPosition(lat: state.lat!, long: state.long);
-                // }
               },
-              decoration: const InputDecoration.collapsed(
-                hintText: 'Search your place...',
+              decoration: const InputDecoration(
+                hintText: 'Search Your Place 📍',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.cyan),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.cyan),
+                ),
+                disabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.cyan),
+                ),
               ),
+              // collapsed(
+              //   hintText: 'Search Your Place 📍',
+              // ),
+              style:
+                  const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
             ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.clear),
                 onPressed: () {
+                  _seachController.clear();
                   context.read<SearchCubit>().clear();
+
+                  //Navigator.of(context).pop();
                 },
               ),
               const SizedBox(width: 5.0),
             ],
           ),
-          // floatingActionButton: FloatingActionButton(onPressed: () async {
-          //   final result = await context
-          //       .read<NearbyRepository>()
-          //       .getPlaceDetails(placeId: 'ChIJh09POeRBfDkR7F3OBkKju7M');
-          //   print('Place details $result');
-          // }),
           body: Stack(
             children: [
-              // MapView1(lat: state.lat, long: state.long),
               Column(
                 children: [
+                  const SizedBox(height: 10.0),
+                  if ((state.placeDetails?.photoRefs ?? []).isNotEmpty)
+                    SearchPlacePhotos(
+                      photoRefs: state.placeDetails?.photoRefs ?? [],
+                    ),
                   Expanded(
                     child: GoogleMap(
-                      // onMapCreated: (GoogleMapController controller) {
-                      //   _controller.complete(controller);
-                      // },
-
                       onMapCreated: _onMapCreated,
                       initialCameraPosition: CameraPosition(
                         target:
@@ -153,7 +204,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.grey.shade200,
+                      color: Colors.white,
                     ),
                     height: 250.0,
                     child: Padding(
@@ -162,36 +213,38 @@ class _SearchScreenState extends State<SearchScreen> {
                         itemCount: state.searchResults.length,
                         itemBuilder: (context, index) {
                           final searchItem = state.searchResults[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0,
-                              vertical: 10.0,
+                          return ListTile(
+                            onTap: () async {
+                              FocusScope.of(context).unfocus();
+                              await context
+                                  .read<SearchCubit>()
+                                  .selectSearchResult(item: searchItem);
+                              if (searchItem?.mainText != null) {
+                                _seachController.text =
+                                    searchItem?.mainText ?? '';
+                              }
+
+                              _addMarker(
+                                lat: state.lat,
+                                long: state.long,
+                              );
+                              // _addMarker(lat: 18.52, long: 18.52);
+
+                              changeCameraPosition(
+                                  lat: state.lat, long: state.long);
+                            },
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.blue.shade800,
+                              child: const Icon(
+                                Icons.location_pin,
+                                color: Colors.white,
+                              ),
                             ),
-                            child: GestureDetector(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                if (searchItem?.mainText != null) {
-                                  _seachController.text =
-                                      searchItem?.mainText ?? '';
-                                }
-
-                                if (state.lat != null && state.long != null) {
-                                  _addMarker(lat: state.lat, long: state.long);
-
-                                  changeCameraPosition(
-                                      lat: state.lat!, long: state.long);
-                                }
-
-                                context
-                                    .read<SearchCubit>()
-                                    .selectSearchResult(item: searchItem);
-                              },
-                              child: Text(
-                                searchItem?.mainText ?? '',
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.blue,
-                                ),
+                            title: Text(
+                              searchItem?.mainText ?? '',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
                               ),
                             ),
                           );
@@ -207,39 +260,23 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      // ElevatedButton.icon(
-                      //   onPressed: () {
-                      //     context.read<SearchCubit>().getCurrentLocation();
-                      //     if (state.lat != null && state.long != null) {
-                      //       print('State lat ${state.lat}');
-                      //       print('State lat ${state.long}');
-                      //       _addMarker(lat: state.lat, long: state.long);
-
-                      //       changeCameraPosition(
-                      //           lat: state.lat!, long: state.long);
-                      //     }
-                      //   },
-                      //   icon: const Icon(Icons.my_location),
-                      //   label: const Text(
-                      //     'Current Location',
-                      //     style: TextStyle(
-                      //       fontSize: 16.0,
-                      //       fontWeight: FontWeight.w600,
-                      //       letterSpacing: 0.9,
-                      //     ),
-                      //   ),
-                      // ),
                       ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop(state.placeDetails);
                         },
-                        icon: const Icon(Icons.pin_drop),
+                        icon: const Icon(
+                          Icons.pin_drop,
+                          size: 20.0,
+                        ),
                         label: const Text(
-                          'Pick This Location',
+                          'Pick this location',
                           style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.9,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8,
                           ),
                         ),
                       )
@@ -247,44 +284,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               )
-
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              //   child: Column(
-              //     children: [
-              //       CustomTextField(
-              //         controller: _seachController,
-              //         //  initialValue: state.initialText,
-              //         hintText: 'Search your place',
-              //         onChanged: (value) =>
-              //             context.read<SearchCubit>().searchItem(value: value),
-              //         validator: (value) {
-              //           if (value!.isEmpty) {
-              //             return 'Search text can\'t be empty';
-              //           }
-              //           return null;
-              //         },
-              //         textInputType: TextInputType.streetAddress,
-              //         // TODO: add initial text here
-              //       ),
-              //       const SizedBox(height: 10.0),
-
-              //     ],
-              //   ),
-              // ),
             ],
           ),
-
-          //  BlocConsumer<SearchCubit, SearchState>(
-          //   listener: (context, state) {},
-          //   builder: (context, state) {
-          //     print('Current location ${state.locationData}');
-          //     print('Screen lat  text ${state.lat}');
-          //     print('Screen long ${state.long}');
-          //     return
-          //   },
-          // ),
         );
+        // if (state.status == SearchStatus.loading) {
+        //   return const LoadingIndicator();
+        // } else {
+        //   print('Status-- ${state.status}');
+        // }
       },
     );
   }

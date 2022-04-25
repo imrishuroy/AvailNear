@@ -173,7 +173,7 @@ class PostDetails extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15.0),
-                const MapView(),
+                const SizedBox(height: 250.0, child: MapView()),
                 // Image.network(
                 //   'https://www.fluttercampus.com/img/uploads/web/2022/01/47a658229eb2368a99f1d032c8848542.webp',
                 //   height: 250.0,

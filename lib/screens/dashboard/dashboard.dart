@@ -150,7 +150,7 @@ class DashBoard extends StatelessWidget {
                                     context.read<DashBoardBloc>().add(
                                           LoadCurrentAddress(
                                               address: placeDetails!
-                                                  .formatedAddress!),
+                                                  .formatedAddress),
                                         );
                                   }
                                 },

@@ -31,13 +31,14 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void clear() {
+    getCurrentLocation();
     emit(state.copyWith(searchResults: []));
   }
 
-  void selectSearchResult({required SearchedItem? item}) async {
+  Future<void> selectSearchResult({required SearchedItem? item}) async {
+    emit(state.copyWith(status: SearchStatus.searching));
     if (item != null) {
-      //searchItem(value: text);
-      //emit(state.copyWith());
+      print('check 1 - this runs');
       final details =
           await _nearbyRepository.getPlaceDetails(placeId: item.placeId);
       print('palce Detials - $details');
@@ -49,15 +50,35 @@ class SearchCubit extends Cubit<SearchState> {
           lat: details?.lat,
           long: details?.long,
           placeDetails: details,
+          status: SearchStatus.succuss,
         ),
       );
     }
+  }
 
-    //emit(state.copyWith(initialText: text));
+  void getSearchPlacesPhotos({required List<String?> photoRefs}) async {
+    try {
+      emit(state.copyWith(status: SearchStatus.loading));
+      List<String> photoUrls = [];
+      for (var item in photoRefs) {
+        if (item != null) {
+          final photoUrl =
+              await _nearbyRepository.getPlacePhoto(photoRef: item);
+          if (photoUrl != null) {
+            photoUrls.add(photoUrl);
+          }
+        }
+      }
+      emit(state.copyWith(
+          searchedPlacePhotos: photoUrls, status: SearchStatus.succuss));
+    } on Failure catch (failure) {
+      emit(state.copyWith(failure: failure, status: SearchStatus.error));
+    }
   }
 
   void getCurrentLocation() async {
     try {
+      emit(state.copyWith(status: SearchStatus.searching));
       final locationData = await LocationUtil.getCurrentLocation();
       final address = await LocationUtil.getCurrentAddress();
       // final details =
@@ -76,6 +97,7 @@ class SearchCubit extends Cubit<SearchState> {
           lat: locationData?.latitude,
           long: locationData?.longitude,
           placeDetails: placeDetails,
+          status: SearchStatus.succuss,
         ),
       );
     } on Failure catch (failure) {
