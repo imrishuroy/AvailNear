@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import '/config/paths.dart';
@@ -14,6 +13,7 @@ class Post extends Equatable {
   final String? address;
   final List<String?> images;
   final DateTime? createdAt;
+  final GeoPoint? geoPoint;
 
   const Post({
     this.postId,
@@ -24,6 +24,7 @@ class Post extends Equatable {
     this.address,
     required this.images,
     this.createdAt,
+    this.geoPoint,
   });
 
   Post copyWith({
@@ -35,6 +36,7 @@ class Post extends Equatable {
     String? address,
     List<String?>? images,
     DateTime? createdAt,
+    GeoPoint? geoPoint,
   }) {
     return Post(
       postId: postId ?? this.postId,
@@ -45,6 +47,7 @@ class Post extends Equatable {
       address: address ?? this.address,
       images: images ?? this.images,
       createdAt: createdAt ?? this.createdAt,
+      geoPoint: geoPoint ?? this.geoPoint,
     );
   }
 
@@ -62,6 +65,7 @@ class Post extends Equatable {
       'address': address,
       'images': images,
       'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+      'geopoint': geoPoint,
     };
   }
 
@@ -72,6 +76,10 @@ class Post extends Equatable {
     final userRef = data?['owner'] as DocumentReference?;
 
     final userSnap = await userRef?.get();
+    print('Location -- ${data?['location']}');
+    final geoPoint = data?['location'] as GeoPoint?;
+    print('geopoint - $geoPoint');
+
     return Post(
       postId: data?['postId'],
       title: data?['title'],
@@ -84,33 +92,15 @@ class Post extends Equatable {
       createdAt: data?['createdAt'] != null
           ? (data?['createdAt'] as Timestamp).toDate()
           : null,
+      geoPoint: geoPoint,
     );
   }
 
-  // factory Post.fromMap(Map<String, dynamic> map) {
-  //   print('Post map data --$map');
-
-  //   return Post(
-  //     postId: map['postId'],
-  //     title: map['title'],
-  //     description: map['description'],
-  //     owner: map['owner'] != null ? AppUser.fromMap(map['owner']) : null,
-  //     price: map['price']?.toInt(),
-  //     address: map['address'],
-  //     images: List<String?>.from(map['images']),
-  //          createdAt: map['createdAt'] != null
-  //         ? (map['createdAt'] as Timestamp).toDate()
-  //         : null,
-  //   );
-  // }
-
   String toJson() => json.encode(toMap());
-
-  //factory Post.fromJson(String source) => Post.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Post(title: $title, description: $description, owner: $owner, price: $price, address: $address, images: $images, postId: $postId, createdAt: $createdAt)';
+    return 'Post(title: $title, description: $description, owner: $owner, price: $price, address: $address, images: $images, postId: $postId, createdAt: $createdAt, geoPoint: $geoPoint)';
   }
 
   @override
@@ -124,6 +114,7 @@ class Post extends Equatable {
       address,
       images,
       createdAt,
+      geoPoint,
     ];
   }
 }

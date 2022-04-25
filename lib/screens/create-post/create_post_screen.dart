@@ -148,6 +148,7 @@ class _CreatePostState extends State<CreatePost> {
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0,
+                                        vertical: 10.0,
                                       ),
                                       child: Stack(
                                         children: [

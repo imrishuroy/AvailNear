@@ -26,8 +26,10 @@ class _ChooseUserTypeState extends State<ChooseUserType> {
                 value: UserType.owner,
                 groupValue: _type,
                 onChanged: (UserType? value) async {
+                  await SharedPrefs().setUserType(rentee);
                   if (value != null) {
-                    await SharedPrefs().setUserType(owner);
+                    //  await SharedPrefs().setUserType(rentee);
+
                     setState(() {
                       _type = value;
                     });
@@ -46,8 +48,9 @@ class _ChooseUserTypeState extends State<ChooseUserType> {
                 value: UserType.renter,
                 groupValue: _type,
                 onChanged: (UserType? value) async {
+                  await SharedPrefs().setUserType(owner);
                   if (value != null) {
-                    await SharedPrefs().setUserType(rentee);
+                    // await SharedPrefs().setUserType(owner);
                     setState(() {
                       _type = value;
                     });

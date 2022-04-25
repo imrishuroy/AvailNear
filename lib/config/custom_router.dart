@@ -1,5 +1,6 @@
+import '/screens/post/post_details_screen.dart';
+import '/screens/post/screens/panorama_screen.dart';
 import '/screens/search-place/search_screen.dart';
-import '/screens/post/post_details.dart';
 import 'package:flutter/material.dart';
 import '/nav/nav_screen.dart';
 import '/screens/login/login_screen.dart';
@@ -33,6 +34,9 @@ class CustomRouter {
 
       case SearchScreen.routeName:
         return SearchScreen.route();
+
+      case PanormaScreen.routeName:
+        return PanormaScreen.route();
 
       default:
         return _errorRoute();

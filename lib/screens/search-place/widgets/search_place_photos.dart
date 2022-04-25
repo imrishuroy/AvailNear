@@ -1,4 +1,4 @@
-import 'package:availnear/widgets/display_image.dart';
+import '/widgets/display_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '/screens/search-place/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';

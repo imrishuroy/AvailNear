@@ -1,5 +1,4 @@
-import 'package:availnear/config/auth_wrapper.dart';
-
+import '/config/auth_wrapper.dart';
 import '/repositories/nearby/nearby_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';

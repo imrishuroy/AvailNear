@@ -1,8 +1,7 @@
-import 'package:availnear/models/place_details.dart';
+import '/models/place_details.dart';
+import '../../models/search_detail.dart';
 
-import '/models/searched_Item.dart';
 import 'package:location/location.dart';
-
 import '/models/failure.dart';
 import '/models/place.dart';
 import '/repositories/nearby/base_nearby_repo.dart';
@@ -89,7 +88,7 @@ class NearbyRepository extends BaseNearbyRepo {
     required LocationData? location,
   }) async {
     try {
-      List<SearchedItem?> items = [];
+      List<SearchedDetails?> items = [];
       if (location == null) {
         return;
       }
@@ -108,7 +107,7 @@ class NearbyRepository extends BaseNearbyRepo {
       if (response.statusCode == 200) {
         final predections = response.data['predictions'] as List? ?? [];
         for (var element in predections) {
-          items.add(SearchedItem.fromMap(element));
+          items.add(SearchedDetails.fromMap(element));
         }
       }
       return items;

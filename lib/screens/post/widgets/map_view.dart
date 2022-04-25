@@ -1,47 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MapView1 extends StatefulWidget {
-  final double? lat;
-  final double? long;
-  const MapView1({Key? key, this.lat, this.long}) : super(key: key);
-
-  @override
-  State<MapView1> createState() => _MapView1State();
-}
-
-class _MapView1State extends State<MapView1> {
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  GoogleMapController? controller;
-
-  void _onMapCreated(GoogleMapController controller) {
-    this.controller = controller;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(widget.lat ?? 23.2486, widget.long ?? 77.5022),
-              zoom: 17.0,
-            ),
-            markers: Set<Marker>.of(markers.values),
-          ),
-        )
-      ],
-    );
-  }
-}
-
-// import 'dart:async';
-
-// import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 class MapView extends StatefulWidget {
   final double? lat;
   final double? long;
@@ -75,6 +34,7 @@ class MapViewState extends State<MapView> {
   @override
   void dispose() {
     super.dispose();
+    controller?.dispose();
   }
 
   void _onMarkerTapped(MarkerId markerId) {
@@ -327,10 +287,11 @@ class MapViewState extends State<MapView> {
       children: [
         Expanded(
           child: GoogleMap(
+            mapType: MapType.normal,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: LatLng(widget.lat ?? 23.2486, widget.long ?? 77.5022),
-              zoom: 17.0,
+              zoom: 16.0,
             ),
             markers: Set<Marker>.of(markers.values),
           ),

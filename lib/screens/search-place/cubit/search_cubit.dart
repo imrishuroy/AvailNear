@@ -1,7 +1,8 @@
-import 'package:availnear/models/place_details.dart';
+import '/models/place_details.dart';
+import '../../../models/search_detail.dart';
 
 import '/models/failure.dart';
-import '/models/searched_Item.dart';
+
 import '/repositories/nearby/nearby_repository.dart';
 import '/utils/location_util.dart';
 import 'package:bloc/bloc.dart';
@@ -35,7 +36,7 @@ class SearchCubit extends Cubit<SearchState> {
     emit(state.copyWith(searchResults: []));
   }
 
-  Future<void> selectSearchResult({required SearchedItem? item}) async {
+  Future<void> selectSearchResult({required SearchedDetails? item}) async {
     emit(state.copyWith(status: SearchStatus.searching));
     if (item != null) {
       print('check 1 - this runs');

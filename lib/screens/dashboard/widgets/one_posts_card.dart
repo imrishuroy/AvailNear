@@ -1,5 +1,5 @@
+import '/screens/post/post_details_screen.dart';
 import '/config/shared_prefs.dart';
-import '/screens/post/post_details.dart';
 import '/widgets/image_slider.dart';
 import '/models/post.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,7 @@ class OnePostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     //final _canvas = MediaQuery.of(context).size;
     //final _authBloc = context.read<AuthBloc>();
+    print('Post -- ${post?.geoPoint}');
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: GestureDetector(

@@ -1,3 +1,5 @@
+import 'package:availnear/config/shared_prefs.dart';
+
 import '/models/place_details.dart';
 import '/screens/search-place/search_screen.dart';
 import '/blocs/bloc/auth_bloc.dart';
@@ -16,6 +18,7 @@ class DashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('usa a a ak a a a${SharedPrefs().getUserType}');
     final _authBloc = context.read<AuthBloc>();
 
     final _canvas = MediaQuery.of(context).size;

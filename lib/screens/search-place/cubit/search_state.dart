@@ -7,7 +7,7 @@ class SearchState extends Equatable {
   final String? initialText;
   final Failure failure;
   final SearchStatus status;
-  final List<SearchedItem?> searchResults;
+  final List<SearchedDetails?> searchResults;
   final double? lat;
   final double? long;
   final PlaceDetails? placeDetails;
@@ -55,7 +55,7 @@ class SearchState extends Equatable {
     String? initialText,
     Failure? failure,
     SearchStatus? status,
-    List<SearchedItem?>? searchResults,
+    List<SearchedDetails?>? searchResults,
     double? lat,
     double? long,
     PlaceDetails? placeDetails,
