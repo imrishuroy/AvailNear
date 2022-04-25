@@ -1,8 +1,6 @@
 import '/models/place_details.dart';
-import '../../../models/search_detail.dart';
-
+import '/models/search_detail.dart';
 import '/models/failure.dart';
-
 import '/repositories/nearby/nearby_repository.dart';
 import '/utils/location_util.dart';
 import 'package:bloc/bloc.dart';

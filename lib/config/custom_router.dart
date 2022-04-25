@@ -1,3 +1,4 @@
+import 'package:availnear/screens/edit-post/edit_post_screen.dart';
 import 'package:availnear/screens/nearby/nearby_details.dart';
 
 import '/screens/post/post_details_screen.dart';
@@ -43,6 +44,10 @@ class CustomRouter {
       case NearbyDetails.routeName:
         return NearbyDetails.route(
             args: settings.arguments as NearbyDetailsArgs);
+
+      case EditPostScreen.routeName:
+        return EditPostScreen.route(
+            args: settings.arguments as EditPostScreenArgs);
 
       default:
         return _errorRoute();

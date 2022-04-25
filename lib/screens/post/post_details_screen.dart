@@ -1,3 +1,5 @@
+import 'package:availnear/screens/edit-post/edit_post_screen.dart';
+
 import '/config/shared_prefs.dart';
 import '/screens/post/widgets/map_view.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
@@ -52,7 +54,9 @@ class PostDetails extends StatelessWidget {
               icon: const Icon(Icons.view_in_ar)),
           if (SharedPrefs().getUserType == owner)
             IconButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pushNamed(
+                  EditPostScreen.routeName,
+                  arguments: EditPostScreenArgs(post: post)),
               icon: const Icon(
                 Icons.edit,
                 size: 20.0,
