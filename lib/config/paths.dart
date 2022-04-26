@@ -6,7 +6,11 @@ class Paths {
 
   static const String wishlist = 'wishlist';
 
+  static const String notifications = 'notifications';
+
   // sub collections
 
   static const String userWishlists = 'userWishlists';
+
+  static const String notifs = 'notifs';
 }

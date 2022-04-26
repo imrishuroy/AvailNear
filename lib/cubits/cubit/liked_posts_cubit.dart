@@ -28,7 +28,10 @@ class LikedPostsCubit extends Cubit<LikedPostsState> {
   void likePost({required Post? post}) {
     if (post?.postId != null) {
       _postRepository.wishlistPost(
-          postId: post?.postId, userId: _authBloc.state.user?.userId);
+        postId: post?.postId,
+        postOwnerId: post?.owner?.userId,
+        user: _authBloc.state.user,
+      );
       emit(
         state.copyWith(
           likedPostIds: Set<String>.from(state.likedPostIds)

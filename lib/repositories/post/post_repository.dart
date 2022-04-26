@@ -1,9 +1,12 @@
+import 'package:availnear/models/app_user.dart';
+import 'package:availnear/models/notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '/models/failure.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '/config/paths.dart';
 import '/models/post.dart';
 import '/repositories/post/base_post_repo.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class PostRepository extends BasePostRepository {
   final FirebaseFirestore _firestore;
@@ -77,16 +80,17 @@ class PostRepository extends BasePostRepository {
 
   Future<void> wishlistPost({
     required String? postId,
-    required String? userId,
+    required String? postOwnerId,
+    required AppUser? user,
   }) async {
     try {
-      if (postId == null || userId == null) {
+      if (postId == null || user == null) {
         return;
       }
 
       await _firestore
           .collection(Paths.wishlist)
-          .doc(userId)
+          .doc(user.userId)
           .collection(Paths.userWishlists)
           .doc(postId)
           .set(
@@ -95,12 +99,33 @@ class PostRepository extends BasePostRepository {
           'date': Timestamp.fromDate(DateTime.now())
         },
       );
+
+      final notification = Notification(
+        content: '${user.name ?? 'User'} wishlisted your listing',
+        title: 'New activity on your listing',
+        renteePhNo: user.phoneNo,
+      );
+
+      _firestore
+          .collection(Paths.notifications)
+          .doc(postOwnerId)
+          .collection(Paths.notifs)
+          .add(notification.toMap());
+
       // await _firestore
       //     .collection(Paths.wishlist)
       //     .doc(postId)
       //     .collection(Paths.userWishlists)
       //     .doc(userId)
       //     .set({'post': _firestore.collection(Paths.posts).doc(postId)});
+
+      HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('onWishlist');
+
+      final resp = await callable.call(<String, dynamic>{
+        'authorId': postOwnerId,
+      });
+      print('result: ${resp.data}');
     } catch (error) {
       print('Error in wishlist post ${error.toString()}');
       throw const Failure(message: 'Error in wishliting post');

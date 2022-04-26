@@ -1,6 +1,6 @@
-import 'package:availnear/services/services.dart';
+import '/repositories/notification/notification_repository.dart';
+import '/services/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import '/config/auth_wrapper.dart';
 import '/repositories/nearby/nearby_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -77,6 +77,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<NotificationService>(
           create: (_) => NotificationService(),
+        ),
+        RepositoryProvider<NotificationRepository>(
+          create: (_) => NotificationRepository(),
         )
       ],
       child: MultiBlocProvider(
@@ -84,6 +87,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
               authRepository: context.read<AuthRepository>(),
+              profileRepository: context.read<ProfileRepository>(),
             ),
           ),
           BlocProvider<LikedPostsCubit>(

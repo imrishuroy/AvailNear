@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:availnear/notification/notification_screen.dart';
 import 'package:availnear/widgets/show_snackbar.dart';
 
 import '/config/paths.dart';
@@ -120,6 +121,8 @@ class _DashBoardState extends State<DashBoard> {
           //print('Mesage 3 ${message.data['icons']}');
           print('Mesage 3 ${message.data}');
 
+          final icon = message.data['icon'];
+
           if (message.notification != null) {
             final notification = context.read<NotificationService>();
             notification.showNotificationMediaStyle(
@@ -129,7 +132,7 @@ class _DashBoardState extends State<DashBoard> {
                 'storyId': 'a',
                 'storyAuthorId': '',
               }),
-              mediaUrl: profilePlaceholderImg,
+              mediaUrl: icon ?? profilePlaceholderImg,
             );
 
             // final String? storyId = message.data['storyId'];
@@ -274,7 +277,7 @@ class _DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     final _authBloc = context.read<AuthBloc>();
-
+    print('Curent user ${_authBloc.state.user}');
     final _canvas = MediaQuery.of(context).size;
     print('User type --- ${SharedPrefs().getUserType}');
     return Scaffold(
@@ -339,23 +342,28 @@ class _DashBoardState extends State<DashBoard> {
                                       ],
                                     ),
                                     const Spacer(),
-                                    CustomContainer(
-                                      child: Center(
-                                        child: Stack(
-                                          children: const [
-                                            Icon(
-                                              Icons.notifications_outlined,
-                                              color: Colors.blue,
-                                            ),
-                                            Positioned(
-                                              top: 1.8,
-                                              right: 1.9,
-                                              child: CircleAvatar(
-                                                radius: 4.0,
-                                                backgroundColor: Colors.red,
+                                    GestureDetector(
+                                      onTap: () => Navigator.of(context)
+                                          .pushNamed(
+                                              NotificationScreens.routeName),
+                                      child: CustomContainer(
+                                        child: Center(
+                                          child: Stack(
+                                            children: const [
+                                              Icon(
+                                                Icons.notifications_outlined,
+                                                color: Colors.blue,
                                               ),
-                                            )
-                                          ],
+                                              Positioned(
+                                                top: 1.8,
+                                                right: 1.9,
+                                                child: CircleAvatar(
+                                                  radius: 4.0,
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     )

@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 class NearbyRepository extends BaseNearbyRepo {
   final _dio = Dio();
 
+  @override
   Future<List<Place?>> getNearBy({
     required String? category,
     required LocationData? location,
@@ -57,6 +58,7 @@ class NearbyRepository extends BaseNearbyRepo {
     }
   }
 
+  @override
   Future<String?> getPlacePhoto({required String? photoRef}) async {
     try {
       if (photoRef == null) {
@@ -83,6 +85,7 @@ class NearbyRepository extends BaseNearbyRepo {
     }
   }
 
+  @override
   Future placeAutoComplete({
     required String keyword,
     required LocationData? location,
@@ -117,6 +120,7 @@ class NearbyRepository extends BaseNearbyRepo {
     }
   }
 
+  @override
   Future<PlaceDetails?> getPlaceDetails({required String? placeId}) async {
     try {
       if (placeId == null) {
