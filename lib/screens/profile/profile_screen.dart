@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await SharedPrefs().deleteEverything();
-              await SharedPrefs().setUserType(owner);
+              await SharedPrefs().setUserType(rentee);
               await FirebaseAuth.instance.signOut();
             },
             icon: const Icon(Icons.logout),

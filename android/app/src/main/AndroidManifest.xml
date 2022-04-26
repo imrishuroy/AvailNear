@@ -8,6 +8,31 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+     <queries>
+  <!-- If your app opens https URLs -->
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <data android:scheme="https" />
+    </intent>
+    <!-- If your app makes calls -->
+    <intent>
+      <action android:name="android.intent.action.DIAL" />
+      <data android:scheme="tel" />
+    </intent>
+    <!-- If your sends SMS messages -->
+    <intent>
+      <action android:name="android.intent.action.SENDTO" />
+      <data android:scheme="smsto" />
+    </intent>
+    <!-- If your app sends emails -->
+    <intent>
+      <action android:name="android.intent.action.SEND" />
+      <data android:mimeType="*/*" />
+    </intent>
+  </queries>
 
    <application
         android:label="Availnear"
@@ -41,6 +66,14 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+
+
+              <!-- Extra  Code For Firebase Notfications -->
+            <meta-data
+              android:name="com.google.firebase.messaging.default_notification_channel_id"
+              android:value="high_importance_channel" />
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -59,5 +92,14 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+                  <!-- This is extra code for local notification -->
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />    
+        
     </application>
 </manifest>

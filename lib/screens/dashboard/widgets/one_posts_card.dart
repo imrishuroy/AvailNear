@@ -137,7 +137,7 @@ class OnePostCard extends StatelessWidget {
                                   ? Icons.bookmark
                                   : Icons.bookmark_add,
                               color: isWishlisted
-                                  ? Colors.black
+                                  ? Colors.blue
                                   : Colors.grey.shade600,
                             ),
                           ),

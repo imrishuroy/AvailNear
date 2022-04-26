@@ -1,3 +1,6 @@
+import 'package:availnear/services/services.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '/config/auth_wrapper.dart';
 import '/repositories/nearby/nearby_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -15,6 +18,12 @@ import 'config/shared_prefs.dart';
 import 'constants/constants.dart';
 import 'cubits/cubit/liked_posts_cubit.dart';
 import 'repositories/auth/auth_repository.dart';
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  //await Firebase.initializeApp();
+  // await FirebaseMessaging.instance.requestPermission();
+  print(message.data.toString());
+}
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -38,9 +47,12 @@ void main() async {
     await Firebase.initializeApp();
   }
   await SharedPrefs().init();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   EquatableConfig.stringify = kDebugMode;
   // Bloc.observer = SimpleBlocObserver();
   BlocOverrides.runZoned(() {}, blocObserver: SimpleBlocObserver());
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
@@ -62,6 +74,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<NearbyRepository>(
           create: (_) => NearbyRepository(),
+        ),
+        RepositoryProvider<NotificationService>(
+          create: (_) => NotificationService(),
         )
       ],
       child: MultiBlocProvider(

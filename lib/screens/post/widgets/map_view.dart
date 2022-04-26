@@ -4,10 +4,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class MapView extends StatefulWidget {
   final double? lat;
   final double? long;
+  final bool enableZoomControls;
   const MapView({
     Key? key,
     this.lat,
     this.long,
+    this.enableZoomControls = true,
   }) : super(key: key);
 
   @override
@@ -287,6 +289,9 @@ class MapViewState extends State<MapView> {
       children: [
         Expanded(
           child: GoogleMap(
+            // mapToolbarEnabled: false,
+            // compassEnabled: false,
+            zoomControlsEnabled: widget.enableZoomControls,
             mapType: MapType.normal,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(

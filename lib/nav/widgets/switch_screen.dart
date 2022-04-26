@@ -1,3 +1,7 @@
+import '/config/shared_prefs.dart';
+import '/screens/wishlist/bloc/wishlist_bloc.dart';
+import '../../screens/wishlist/wishlist_screen.dart';
+
 import '/repositories/nearby/nearby_repository.dart';
 import '/screens/dashboard/bloc/dashboard_bloc.dart';
 import '/screens/dashboard/dashboard.dart';
@@ -45,13 +49,22 @@ class SwitchScreen extends StatelessWidget {
         );
 
       case NavItem.addPost:
-        return BlocProvider<CreatePostCubit>(
-          create: (context) => CreatePostCubit(
-              authBloc: context.read<AuthBloc>(),
-              postRepository: context.read<PostRepository>())
-            ..getCurrentLocation(),
-          child: const CreatePost(),
-        );
+        return SharedPrefs().getUserType == rentee
+            ? BlocProvider<WishlistBloc>(
+                create: (context) => WishlistBloc(
+                  postRepository: context.read<PostRepository>(),
+                  authBloc: context.read<AuthBloc>(),
+                  likedPostsCubit: context.read<LikedPostsCubit>(),
+                )..add(LoadWishListPots()),
+                child: const WishListScreen(),
+              )
+            : BlocProvider<CreatePostCubit>(
+                create: (context) => CreatePostCubit(
+                    authBloc: context.read<AuthBloc>(),
+                    postRepository: context.read<PostRepository>())
+                  ..getCurrentLocation(),
+                child: const CreatePost(),
+              );
 
       case NavItem.nearby:
         return BlocProvider(

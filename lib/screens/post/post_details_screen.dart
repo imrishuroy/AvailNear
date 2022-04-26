@@ -1,5 +1,6 @@
-import 'package:availnear/screens/edit-post/edit_post_screen.dart';
-
+import 'package:url_launcher/url_launcher_string.dart';
+import '/screens/edit-post/edit_post_screen.dart';
+import '/widgets/show_snackbar.dart';
 import '/config/shared_prefs.dart';
 import '/screens/post/widgets/map_view.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
@@ -39,6 +40,17 @@ class PostDetails extends StatelessWidget {
     print('Post details long ${post?.geoPoint?.longitude}');
     print('get post details -- ${SharedPrefs().getUserType}');
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          if (post?.owner?.phoneNo != null) {
+            // launchUrl('');
+            launchUrlString('tel://${post?.owner?.phoneNo}');
+            //  UrlLauncher.launch('tel: xxxxxxxx');
+          }
+        },
+        child: const Icon(Icons.call),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -62,7 +74,7 @@ class PostDetails extends StatelessWidget {
                 size: 20.0,
               ),
             ),
-          const SizedBox(width: 5.0),
+          const SizedBox(width: 10.0),
         ],
       ),
       body: SafeArea(
@@ -102,6 +114,9 @@ class PostDetails extends StatelessWidget {
                                 .read<LikedPostsCubit>()
                                 .unlikePost(post: post!);
                           } else {
+                            ShowSnackBar.showSnackBar(context,
+                                title:
+                                    '${post?.title ?? 'Post'} added to your wishlist');
                             context
                                 .read<LikedPostsCubit>()
                                 .likePost(post: post);
@@ -109,8 +124,7 @@ class PostDetails extends StatelessWidget {
                         },
                         child: Icon(
                           isWishlist ? Icons.bookmark : Icons.bookmark_add,
-                          color:
-                              isWishlist ? Colors.black : Colors.grey.shade600,
+                          color: isWishlist ? Colors.blue : Colors.blue,
                         ),
                       ),
                   ],
@@ -191,11 +205,27 @@ class PostDetails extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15.0),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.phone,
+                      color: Colors.green,
+                      size: 20.0,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Expanded(child: Text('${post?.owner?.phoneNo} (owner)')),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
                 SizedBox(
-                  height: 250.0,
-                  child: MapView(
-                    lat: post?.geoPoint?.latitude,
-                    long: post?.geoPoint?.longitude,
+                  height: 230.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: MapView(
+                      lat: post?.geoPoint?.latitude,
+                      long: post?.geoPoint?.longitude,
+                      enableZoomControls: false,
+                    ),
                   ),
                 ),
                 // Image.network(
