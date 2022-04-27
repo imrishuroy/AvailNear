@@ -17,14 +17,14 @@ class SharedPrefs {
 
   Future<void> init() async {
     _sharedPrefs ??= await SharedPreferences.getInstance();
-    if (_sharedPrefs != null) {
-      if (_sharedPrefs?.getString(_ownerType) == null) {
-        await _sharedPrefs?.setString(_ownerType, rentee);
-      }
+    // if (_sharedPrefs != null) {
+    //   // if (_sharedPrefs?.getString(_ownerType) == null) {
+    //   //   await _sharedPrefs?.setString(_ownerType, rentee);
+    //   // }
 
-      //  print('shared prefs $value');
+    //   //  print('shared prefs $value');
 
-    }
+    // }
   }
 
   Future<void> setUserType(String value) async {

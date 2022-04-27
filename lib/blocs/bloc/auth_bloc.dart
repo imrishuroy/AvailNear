@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:availnear/repositories/profile/profile_repository.dart';
+import '/repositories/profile/profile_repository.dart';
 import 'package:bloc/bloc.dart';
 import '/repositories/auth/auth_repository.dart';
 import '/models/app_user.dart';
@@ -23,7 +23,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _userSubscription = _authRepository.onAuthChanges.listen((user) async {
       final currentUser =
           await _profileRepository.loadUserProfile(userId: user?.userId);
-      add(AuthUserChanged(user: currentUser));
+      add(
+        AuthUserChanged(
+          user: user?.copyWith(
+            name: currentUser?.name,
+            phoneNo: currentUser?.phoneNo,
+            photoUrl: currentUser?.photoUrl,
+            userType: currentUser?.userType,
+            address: currentUser?.address,
+            email: currentUser?.email,
+          ),
+        ),
+      );
+
+      // if (user != null) {
+      //   final currentUser =
+      //       await _profileRepository.loadUserProfile(userId: user.userId);
+      //   add(AuthUserChanged(user: currentUser ?? user));
+      // } else {
+      //   add(AuthUserChanged(user: user));
+      // }
     });
     on((event, emit) async {
       if (event is AuthUserChanged) {

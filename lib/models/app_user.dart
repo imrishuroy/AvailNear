@@ -70,12 +70,15 @@ class AppUser extends Equatable {
     );
   }
 
-  factory AppUser.fromDocument(DocumentSnapshot? doc) {
-    final data = doc?.data() as Map?;
+  static AppUser? fromDocument(DocumentSnapshot? doc) {
+    if (doc == null) {
+      return null;
+    }
+    final data = doc.data() as Map?;
     final type = EnumToString.fromString(UserType.values, data?['userType']);
     print('App users ---- $data');
     return AppUser(
-      userId: doc?.id,
+      userId: doc.id,
       email: data?['email'],
       name: data?['name'],
       photoUrl: data?['photoUrl'],

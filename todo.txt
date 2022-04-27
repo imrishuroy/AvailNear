@@ -4,6 +4,8 @@ Todos
 3. Map bug fix
 4.Rentee discounts / in place of add post
 
+// add staged animation
+
 
 
 26 April

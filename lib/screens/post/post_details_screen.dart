@@ -9,7 +9,6 @@ import '/screens/dashboard/widgets/icon_count.dart';
 import '/widgets/image_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'screens/panorama_screen.dart';
 
 class PostDetailsArgs {
@@ -40,17 +39,19 @@ class PostDetails extends StatelessWidget {
     print('Post details long ${post?.geoPoint?.longitude}');
     print('get post details -- ${SharedPrefs().getUserType}');
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        onPressed: () {
-          if (post?.owner?.phoneNo != null) {
-            // launchUrl('');
-            launchUrlString('tel://${post?.owner?.phoneNo}');
-            //  UrlLauncher.launch('tel: xxxxxxxx');
-          }
-        },
-        child: const Icon(Icons.call),
-      ),
+      floatingActionButton: SharedPrefs().getUserType == rentee
+          ? FloatingActionButton(
+              backgroundColor: Colors.green,
+              onPressed: () {
+                if (post?.owner?.phoneNo != null) {
+                  // launchUrl('');
+                  launchUrlString('tel://${post?.owner?.phoneNo}');
+                  //  UrlLauncher.launch('tel: xxxxxxxx');
+                }
+              },
+              child: const Icon(Icons.call),
+            )
+          : null,
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),

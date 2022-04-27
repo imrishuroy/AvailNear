@@ -42,6 +42,28 @@ class PostRepository extends BasePostRepository {
     }
   }
 
+  Future<List<Future<Post?>>> getPosts() async {
+    try {
+      // final ownerRef =
+      //     FirebaseFirestore.instance.collection(Paths.users).doc(ownerId);
+      final postsSnaps = await _firestore
+          .collection(Paths.posts)
+          // .withConverter<Post>(
+          //     fromFirestore: (snapshot, _) => Post.fromMap(snapshot.data()!),
+          //     toFirestore: (snapshtot, _) => snapshtot.toMap())
+          // .where('owner', isEqualTo: ownerRef)
+          //.orderBy('createdAt', descending: true)
+          .get();
+
+      return postsSnaps.docs.map((doc) => Post.fromDocument(doc)).toList();
+
+      // return postsSnaps.docs.map((post) => post.data()).toList();
+    } catch (error) {
+      print('Error getting owner posts ${error.toString()}');
+      throw const Failure(message: 'Error getting posts');
+    }
+  }
+
   Future<List<Future<Post?>>> getOwnerPosts({required String? ownerId}) async {
     try {
       final ownerRef =
@@ -104,6 +126,8 @@ class PostRepository extends BasePostRepository {
         content: '${user.name ?? 'User'} wishlisted your listing',
         title: 'New activity on your listing',
         renteePhNo: user.phoneNo,
+        createdAt: DateTime.now(),
+        renteePhotoUrl: user.photoUrl,
       );
 
       _firestore

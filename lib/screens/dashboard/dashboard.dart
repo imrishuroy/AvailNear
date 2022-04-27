@@ -1,8 +1,7 @@
 import 'dart:convert';
-
-import 'package:availnear/notification/notification_screen.dart';
-import 'package:availnear/widgets/show_snackbar.dart';
-
+import '/notification/notification_screen.dart';
+import '/widgets/show_snackbar.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import '/config/paths.dart';
 import '/config/shared_prefs.dart';
 import '/constants/constants.dart';
@@ -221,31 +220,32 @@ class _DashBoardState extends State<DashBoard> {
   Future<void> onSelectNotification(String? payload) async {
     print('Nofication Clicked');
     print('Payload $payload');
+    Navigator.of(context).pushNamed(NotificationScreens.routeName);
 
-    if (payload != null) {
-      final notifData = jsonDecode(payload) as Map?;
-      print('Comments data $notifData');
+    // if (payload != null) {
+    //   final notifData = jsonDecode(payload) as Map?;
+    //   print('Comments data $notifData');
 
-      if (notifData != null) {
-        final String? storyId = notifData['storyId'];
-        final String? storyAuthorId = notifData['storyAuthorId'];
-        final notifType = notifData['type'];
-        final followerId = notifData['followerId'];
+    //   if (notifData != null) {
+    //     final String? storyId = notifData['storyId'];
+    //     final String? storyAuthorId = notifData['storyAuthorId'];
+    //     final notifType = notifData['type'];
+    //     final followerId = notifData['followerId'];
 
-        if (notifType == 'followerNotif' && followerId != null) {
-          // Navigator.of(context).pushNamed(OthersProfileScreen.routeName,
-          //     arguments: OthersProfileScreenArgs(othersProfileId: followerId));
-        } else if (storyAuthorId != null && storyId != null) {
-          // Navigator.of(context).pushNamed(
-          // CommentsScreen.routeName,
-          // arguments: CommentsScreenArgs(
-          //   storyId: storyId,
-          //   storyAuthorId: storyAuthorId,
-          // ),
-          // );
-        }
-      }
-    }
+    //     if (notifType == 'followerNotif' && followerId != null) {
+    //       // Navigator.of(context).pushNamed(OthersProfileScreen.routeName,
+    //       //     arguments: OthersProfileScreenArgs(othersProfileId: followerId));
+    //     } else if (storyAuthorId != null && storyId != null) {
+    //       // Navigator.of(context).pushNamed(
+    //       // CommentsScreen.routeName,
+    //       // arguments: CommentsScreenArgs(
+    //       //   storyId: storyId,
+    //       //   storyAuthorId: storyAuthorId,
+    //       // ),
+    //       // );
+    //     }
+    // }
+    //}
 
 //     final Map? payload = jsonDecode(payload);
 
@@ -306,6 +306,7 @@ class _DashBoardState extends State<DashBoard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 5.0),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 10.0),
@@ -510,37 +511,48 @@ class _DashBoardState extends State<DashBoard> {
                                 if (state.status == PostStatus.loading) {
                                   return const LoadingIndicator();
                                 }
-                                return ListView.builder(
-                                  itemCount: state.posts?.length,
-                                  itemBuilder: (context, index) {
-                                    final post = state.posts?[index];
-                                    final likedPostsState =
-                                        context.watch<LikedPostsCubit>().state;
-                                    final isLiked = likedPostsState.likedPostIds
-                                        .contains(post?.postId);
+                                return AnimationLimiter(
+                                  child: ListView.builder(
+                                    itemCount: state.posts?.length,
+                                    itemBuilder: (context, index) {
+                                      final post = state.posts?[index];
+                                      final likedPostsState = context
+                                          .watch<LikedPostsCubit>()
+                                          .state;
+                                      final isLiked = likedPostsState
+                                          .likedPostIds
+                                          .contains(post?.postId);
 
-                                    // final recentlyLiked = likedPostsState
-                                    //     .recentlyLikedPostIds
-                                    //     .contains(post?.postId);
-                                    return OnePostCard(
-                                      post: state.posts?[index],
-                                      isWishlisted: isLiked,
-                                      onTap: () {
-                                        if (isLiked) {
-                                          context
-                                              .read<LikedPostsCubit>()
-                                              .unlikePost(post: post!);
-                                        } else {
-                                          ShowSnackBar.showSnackBar(context,
-                                              title:
-                                                  '${post?.title ?? 'Post'} added to your wishlist');
-                                          context
-                                              .read<LikedPostsCubit>()
-                                              .likePost(post: post);
-                                        }
-                                      },
-                                    );
-                                  },
+                                      return AnimationConfiguration
+                                          .staggeredList(
+                                        position: index,
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                            child: OnePostCard(
+                                              post: state.posts?[index],
+                                              isWishlisted: isLiked,
+                                              onTap: () {
+                                                if (isLiked) {
+                                                  context
+                                                      .read<LikedPostsCubit>()
+                                                      .unlikePost(post: post!);
+                                                } else {
+                                                  ShowSnackBar.showSnackBar(
+                                                      context,
+                                                      title:
+                                                          '${post?.title ?? 'Post'} added to your wishlist');
+                                                  context
+                                                      .read<LikedPostsCubit>()
+                                                      .likePost(post: post);
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 );
                               },
                             ),

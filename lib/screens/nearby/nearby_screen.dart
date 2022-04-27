@@ -1,4 +1,5 @@
 import 'package:availnear/widgets/error_dialog.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '/constants/constants.dart';
 import '/screens/nearby/cubit/nearby_cubit.dart';
@@ -63,13 +64,24 @@ class NearByScreen extends StatelessWidget {
                     // ),
                     const SizedBox(height: 25.0),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: state.places.length,
-                        itemBuilder: (context, index) {
-                          final place = state.places[index];
+                      child: AnimationLimiter(
+                        child: ListView.builder(
+                          itemCount: state.places.length,
+                          itemBuilder: (context, index) {
+                            final place = state.places[index];
 
-                          return PlaceTile(place: place);
-                        },
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: PlaceTile(place: place),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

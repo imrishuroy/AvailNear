@@ -1,12 +1,15 @@
-import 'package:availnear/config/shared_prefs.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
+import '/config/shared_prefs.dart';
+import '/constants/constants.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/notification/cubit/notif_cubit.dart';
 import '/repositories/notification/notification_repository.dart';
 import '/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+export '/extensions/extensions.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationScreens extends StatelessWidget {
   static const String routeName = '/notifs';
@@ -50,42 +53,63 @@ class NotificationScreens extends StatelessWidget {
                 return Column(
                   children: [
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: state.notifs.length,
-                        itemBuilder: (context, index) {
-                          final notif = state.notifs[index];
-                          return Column(
-                            children: [
-                              ListTile(
-                                leading: Image.network(
-                                  'https://cdn-icons.flaticon.com/png/128/2549/premium/2549900.png?token=exp=1651008957~hmac=cf4210dcc4e766f831e5ecabcdd0d6cc',
-                                  height: 25.0,
-                                  width: 25.0,
-                                ),
-                                title: Text(
-                                  notif?.content ?? '',
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w600,
+                      child: AnimationLimiter(
+                        child: ListView.builder(
+                          itemCount: state.notifs.length,
+                          itemBuilder: (context, index) {
+                            final notif = state.notifs[index];
+                            print('notif $notif');
+                            final createdAt = notif?.createdAt != null
+                                ? timeago.format(DateTime.tryParse(
+                                    notif!.createdAt.toString())!)
+                                : '';
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        leading: CircleAvatar(
+                                          radius: 25.0,
+                                          backgroundImage: NetworkImage(
+                                            notif?.renteePhotoUrl ?? errorImage,
+                                          ),
+                                          // child: Image.network(
+                                          //   notif?.renteePhotoUrl ?? errorImage,
+                                          //   height: 25.0,
+                                          //   width: 25.0,
+                                          // ),
+                                        ),
+                                        title: Text(
+                                          notif?.content ?? '',
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        subtitle: Text(createdAt),
+                                        trailing: IconButton(
+                                          icon: const Icon(
+                                            Icons.phone,
+                                            color: Colors.green,
+                                          ),
+                                          onPressed: () {
+                                            launchUrlString(
+                                                'tel://${notif?.renteePhNo}');
+                                          },
+                                        ),
+                                      ),
+                                      const Divider()
+                                    ],
                                   ),
-                                ),
-                                // subtitle: Text(notif?.content ?? ''),
-
-                                trailing: IconButton(
-                                  icon: const Icon(
-                                    Icons.phone,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () {
-                                    launchUrlString(
-                                        'tel://${notif?.renteePhNo}');
-                                  },
                                 ),
                               ),
-                              const Divider()
-                            ],
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     )
                   ],

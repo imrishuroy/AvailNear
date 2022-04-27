@@ -86,8 +86,8 @@ class OwnerProfile extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
-              await SharedPrefs().deleteEverything();
-              await SharedPrefs().setUserType(owner);
+              //  await SharedPrefs().deleteEverything();
+              await SharedPrefs().setUserType(rentee);
               await context.read<AuthRepository>().signOut();
             },
             icon: const Icon(

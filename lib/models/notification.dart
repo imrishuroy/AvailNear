@@ -1,26 +1,36 @@
 import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Notification extends Equatable {
   final String? title;
   final String content;
   final String? renteePhNo;
+  final String? renteePhotoUrl;
+  final DateTime? createdAt;
 
   const Notification({
     this.title,
     required this.content,
     this.renteePhNo,
+    required this.createdAt,
+    required this.renteePhotoUrl,
   });
 
   Notification copyWith({
     String? title,
     String? content,
     String? renteePhNo,
+    DateTime? createdAt,
+    String? renteePhotoUrl,
   }) {
     return Notification(
       title: title ?? this.title,
       content: content ?? this.content,
       renteePhNo: renteePhNo ?? this.renteePhNo,
+      createdAt: createdAt ?? this.createdAt,
+      renteePhotoUrl: renteePhotoUrl ?? renteePhotoUrl,
     );
   }
 
@@ -29,6 +39,8 @@ class Notification extends Equatable {
       'title': title,
       'content': content,
       'renteePhNo': renteePhNo,
+      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
+      'renteePhotoUrl': renteePhotoUrl,
     };
   }
 
@@ -37,6 +49,10 @@ class Notification extends Equatable {
       title: map['title'],
       content: map['content'] ?? '',
       renteePhNo: map['renteePhNo'],
+      createdAt: map['createdAt'] != null
+          ? (map['createdAt'] as Timestamp).toDate()
+          : null,
+      renteePhotoUrl: map['renteePhotoUrl'],
     );
   }
 
@@ -46,9 +62,11 @@ class Notification extends Equatable {
       Notification.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'Notification(title: $title, content: $content, renteePhNo: $renteePhNo)';
+  String toString() {
+    return 'Notification(title: $title, content: $content, renteePhNo: $renteePhNo, createdAt: $createdAt, renteePhotoUrl: $renteePhotoUrl)';
+  }
 
   @override
-  List<Object?> get props => [title, content, renteePhNo];
+  List<Object?> get props =>
+      [title, content, renteePhNo, createdAt, renteePhotoUrl];
 }

@@ -1,3 +1,5 @@
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
 import '/screens/dashboard/widgets/one_posts_card.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
 import '/screens/wishlist/bloc/wishlist_bloc.dart';
@@ -36,31 +38,42 @@ class WishListScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: state.posts?.length,
-                        itemBuilder: (context, index) {
-                          final post = state.posts?[index];
-                          final likedPostsState =
-                              context.watch<LikedPostsCubit>().state;
-                          final isLiked = likedPostsState.likedPostIds
-                              .contains(post?.postId);
+                      child: AnimationLimiter(
+                        child: ListView.builder(
+                          itemCount: state.posts?.length,
+                          itemBuilder: (context, index) {
+                            final post = state.posts?[index];
+                            final likedPostsState =
+                                context.watch<LikedPostsCubit>().state;
+                            final isLiked = likedPostsState.likedPostIds
+                                .contains(post?.postId);
 
-                          return OnePostCard(
-                            post: state.posts?[index],
-                            isWishlisted: isLiked,
-                            onTap: () {
-                              if (isLiked) {
-                                context
-                                    .read<LikedPostsCubit>()
-                                    .unlikePost(post: post!);
-                              } else {
-                                context
-                                    .read<LikedPostsCubit>()
-                                    .likePost(post: post);
-                              }
-                            },
-                          );
-                        },
+                            return AnimationConfiguration.staggeredList(
+                              position: index,
+                              duration: const Duration(milliseconds: 375),
+                              child: SlideAnimation(
+                                verticalOffset: 50.0,
+                                child: FadeInAnimation(
+                                  child: OnePostCard(
+                                    post: state.posts?[index],
+                                    isWishlisted: isLiked,
+                                    onTap: () {
+                                      if (isLiked) {
+                                        context
+                                            .read<LikedPostsCubit>()
+                                            .unlikePost(post: post!);
+                                      } else {
+                                        context
+                                            .read<LikedPostsCubit>()
+                                            .likePost(post: post);
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     )
                   ],

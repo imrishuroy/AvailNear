@@ -44,6 +44,9 @@ class ProfileRepository extends BaseProfileRepository {
 
       final userSnap =
           await _firestore.collection(Paths.users).doc(userId).get();
+
+      print('User snap -- ${userSnap.data()}');
+
       return AppUser.fromDocument(userSnap);
     } catch (error) {
       print('Error in loading user profile ${error.toString()}');

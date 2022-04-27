@@ -1,8 +1,8 @@
+import 'package:availnear/config/shared_prefs.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '/blocs/bloc/auth_bloc.dart';
 import '/cubits/cubit/liked_posts_cubit.dart';
-import '/enums/enums.dart';
 import '/models/failure.dart';
 import '/models/post.dart';
 import '/repositories/post/post_repository.dart';
@@ -28,13 +28,15 @@ class PostCubit extends Cubit<PostState> {
     try {
       List<Future<Post?>> futurePosts = [];
       _likedPostsCubit.clearAllLikedPosts();
-      futurePosts = await _postRepository.getOwnerPosts(
-          ownerId: _authBloc.state.user?.userId);
-      if (_authBloc.state.user?.userType == UserType.owner) {
+
+      // futurePosts =
+      //     await _postRepository.getPosts(ownerId: _authBloc.state.user?.userId);
+      if (SharedPrefs().getUserType == owner) {
         futurePosts = await _postRepository.getOwnerPosts(
             ownerId: _authBloc.state.user?.userId);
-      } else if (_authBloc.state.user?.userType == UserType.renter) {
-        futurePosts = await _postRepository.getRenterPosts();
+      } else if (SharedPrefs().getUserType == rentee) {
+        print('THis run ');
+        futurePosts = await _postRepository.getPosts();
       } else {
         emit(state.copyWith(posts: [], status: PostStatus.loaded));
       }
