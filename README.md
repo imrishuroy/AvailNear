@@ -1,7 +1,7 @@
 # availnear
 
 A new Flutter project.
-
+The USP of this project is connecting people nearby to help each other, in finding the best play to stay,shop,eat, etc.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
